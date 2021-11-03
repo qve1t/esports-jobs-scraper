@@ -2,6 +2,7 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 import { CompanyScraper } from "../interfaces/companyScraper.interface";
 import { JobOffer } from "../interfaces/JobOffer.interface";
+import { HandleFoundJobOffer } from "../services/JobOffer.service";
 
 export class FnaticCompany implements CompanyScraper {
   company = "Fnatic";
@@ -35,6 +36,7 @@ export class FnaticCompany implements CompanyScraper {
       name: jobName,
       location: jobLocation,
       description: jobDescription,
+      url: this.mainUrl + url,
     };
   }
 
@@ -44,7 +46,7 @@ export class FnaticCompany implements CompanyScraper {
     await Promise.all(
       this.linksToOffers.map(async (elem) => {
         const offer = await this.scrapeJobOffer(elem);
-        console.log(offer);
+        HandleFoundJobOffer(offer);
       })
     );
   }
