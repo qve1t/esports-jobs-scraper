@@ -9,6 +9,12 @@ export class G2Company implements CompanyScraper {
   mainUrl = "https://g2esports.com";
   linksToOffers: string[] = [];
 
+  scrapeInfo() {
+    console.log(
+      `${this.company} scraped. Found ${this.linksToOffers.length} offers.`
+    );
+  }
+
   async scrapeLinks() {
     const response = await axios.get(this.mainUrl + "/blogs/careers");
 
@@ -51,5 +57,7 @@ export class G2Company implements CompanyScraper {
         HandleFoundJobOffer(offer);
       })
     );
+
+    this.scrapeInfo();
   }
 }

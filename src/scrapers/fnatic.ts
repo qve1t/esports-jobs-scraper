@@ -9,6 +9,12 @@ export class FnaticCompany implements CompanyScraper {
   mainUrl = "https://fnatic.com";
   linksToOffers: string[] = [];
 
+  scrapeInfo() {
+    console.log(
+      `${this.company} scraped. Found ${this.linksToOffers.length} offers.`
+    );
+  }
+
   async scrapeLinks() {
     const response = await axios.get(this.mainUrl + "/careers");
 
@@ -49,5 +55,7 @@ export class FnaticCompany implements CompanyScraper {
         HandleFoundJobOffer(offer);
       })
     );
+
+    this.scrapeInfo();
   }
 }
