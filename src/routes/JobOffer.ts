@@ -19,7 +19,7 @@ JobOfferRouter.get("/api/getoffers/", async (req, res) => {
     );
     res.send(response);
   } catch (error) {
-    res.status(500).send("Server error appeared");
+    res.status(500).send({ error: "Server error appeared" });
   }
 });
 
@@ -32,10 +32,10 @@ JobOfferRouter.get("/api/offer/:id", async (req, res) => {
     if (response) {
       res.send(response);
     } else {
-      res.status(404).send("Offer not found");
+      res.status(404).send({ error: "Offer not found" });
     }
   } catch (error) {
-    res.status(500).send("Server error appeared");
+    res.status(500).send({ error: "Server error appeared" });
   }
 });
 

@@ -9,7 +9,7 @@ import JobOfferRouter from "./src/routes/JobOffer";
 connectDB();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 const G2 = new G2Company();
 const Fnatic = new FnaticCompany();
