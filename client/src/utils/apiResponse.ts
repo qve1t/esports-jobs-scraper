@@ -1,4 +1,4 @@
-import { FetchResponse } from "../interfaces/fetch";
+import { FetchResponse } from "../interfaces/fetch.interface";
 
 export const apiResponse = (
   isResponseOk: boolean,

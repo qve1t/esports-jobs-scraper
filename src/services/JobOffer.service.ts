@@ -51,7 +51,7 @@ export const GetJobOffersList = async (
   })
     .skip(page * limit)
     .limit(limit)
-    .select("company name location url");
+    .select("_id company name location");
 
   const countDocuments = await JobOfferModel.find({
     $or: [

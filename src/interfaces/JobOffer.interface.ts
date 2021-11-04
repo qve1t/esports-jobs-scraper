@@ -7,10 +7,10 @@ export interface JobOffer {
 }
 
 export interface SimpleJobOffer {
+  _id: string;
   company: string;
   name: string;
   location: string;
-  url: string;
 }
 
 export interface SimpleJobOfferList {

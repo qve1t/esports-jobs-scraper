@@ -8,7 +8,13 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      opacity: ["disabled"],
+      cursor: ["disabled"],
+      backgroundColor: ["disabled"],
+      borderColor: ["disabled"],
+      textColor: ["disabled"],
+    },
   },
   plugins: [],
 };

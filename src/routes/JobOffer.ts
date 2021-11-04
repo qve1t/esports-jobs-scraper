@@ -9,14 +9,10 @@ const JobOfferRouter = Router();
 JobOfferRouter.get("/api/getoffers/", async (req, res) => {
   try {
     const search = req.query.search || "";
-    const page = req.query.page || 0;
-    const limit = req.query.limit || 15;
+    const page = parseInt(req.query.page as string) || 0;
+    const limit = parseInt(req.query.limit as string) || 15;
 
-    const response = await GetJobOffersList(
-      search as string,
-      page as number,
-      limit as number
-    );
+    const response = await GetJobOffersList(search as string, page, limit);
     res.send(response);
   } catch (error) {
     res.status(500).send({ error: "Server error appeared" });

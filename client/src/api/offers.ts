@@ -1,4 +1,4 @@
-import { FetchResponse } from "../interfaces/fetch";
+import { FetchResponse } from "../interfaces/fetch.interface";
 import {
   GetOffersListRequest,
   JobOffer,
@@ -22,7 +22,7 @@ export const getOffersList = async ({
         mode: "no-cors",
       }
     );
-    console.log(await response.text());
+
     const jsonResponse = await response.json();
     return apiResponse(response.ok, jsonResponse);
   } catch (error) {
