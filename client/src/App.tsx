@@ -8,8 +8,8 @@ import OfferPage from "./pages/OfferPage";
 function App() {
   return (
     <>
-      <Header />
       <Router>
+        <Header />
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/about" element={<AboutPage />} />

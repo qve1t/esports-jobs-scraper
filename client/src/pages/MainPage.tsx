@@ -1,5 +1,14 @@
+import Layout from "../components/Layout";
+import Offers from "../components/Offers";
+import SearchComponent from "../components/Search";
+
 const MainPage = () => {
-  return <div>Main Page</div>;
+  return (
+    <Layout>
+      <SearchComponent />
+      <Offers />
+    </Layout>
+  );
 };
 
 export default MainPage;
