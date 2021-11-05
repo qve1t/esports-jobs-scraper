@@ -1,9 +1,10 @@
 import express from "express";
+import "reflect-metadata";
 
 import { G2Company } from "./src/scrapers/g2";
 import { FnaticCompany } from "./src/scrapers/fnatic";
 
-import connectDB from "./src/db/mongoose";
+import connectDB from "./src/db/typeorm";
 import JobOfferRouter from "./src/routes/JobOffer";
 import { VitalityCompany } from "./src/scrapers/vitality";
 import { ExcelCompany } from "./src/scrapers/excel";
