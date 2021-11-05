@@ -2,7 +2,10 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 import { CompanyScraper } from "../interfaces/companyScraper.interface";
 import { JobOffer } from "../interfaces/JobOffer.interface";
-import { HandleFoundJobOffer } from "../services/JobOffer.service";
+import {
+  DeleteOldOffers,
+  HandleFoundJobOffer,
+} from "../services/JobOffer.service";
 
 export class G2Company implements CompanyScraper {
   company = "G2";
@@ -11,7 +14,7 @@ export class G2Company implements CompanyScraper {
 
   scrapeInfo() {
     console.log(
-      `${this.company} scraped. Found ${this.linksToOffers.length} offers.`
+      `[server]: ${this.company} scraped. Found ${this.linksToOffers.length} offers.`
     );
   }
 
@@ -61,6 +64,8 @@ export class G2Company implements CompanyScraper {
         HandleFoundJobOffer(offer);
       })
     );
+
+    await DeleteOldOffers(this.company, this.mainUrl, this.linksToOffers);
 
     this.scrapeInfo();
   }

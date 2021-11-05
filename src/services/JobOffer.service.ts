@@ -74,3 +74,27 @@ export const GetJobOfferDetails = async (
 
   return offersList;
 };
+
+export const DeleteOldOffers = async (
+  company: string,
+  mainUrl: string,
+  newOffersList: string[]
+) => {
+  const currentOffers = await JobOfferModel.find({ company: company }).select(
+    "url"
+  );
+
+  const filteredOffers = currentOffers.filter(
+    (elem) => !newOffersList.some((filter) => elem.url === mainUrl + filter)
+  );
+
+  await Promise.all(
+    filteredOffers.map(async (elem) => {
+      await JobOfferModel.findByIdAndDelete(elem._id);
+    })
+  );
+
+  console.log(
+    `[server]: Deleted ${filteredOffers.length} old offers of ${company}`
+  );
+};
