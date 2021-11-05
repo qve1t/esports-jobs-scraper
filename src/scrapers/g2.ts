@@ -44,7 +44,12 @@ export class G2Company implements CompanyScraper {
       .text()
       .split(":")[1]
       .trim();
-    const jobDescription = $("article").first().text().trim();
+
+    const jobDescription = $("article")
+      .first()
+      .text()
+      .trim()
+      .replace(/\n\n+/g, "\n\n");
 
     return {
       company: this.company,

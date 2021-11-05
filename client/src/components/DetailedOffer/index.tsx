@@ -17,6 +17,10 @@ const DetailedOffer = () => {
   const { id } = useParams();
 
   useEffect(() => {
+    document.title = data?.name || "EsportsGO";
+  }, [data?.name]);
+
+  useEffect(() => {
     const fetchData = async () => {
       const fetchedData = await getOfferDetails(id || "");
 
@@ -39,7 +43,6 @@ const DetailedOffer = () => {
     return <ErrorComponent error={pageLoadingState.error} />;
   }
 
-  console.log(data);
   return (
     <>
       <div className="flex justify-between">

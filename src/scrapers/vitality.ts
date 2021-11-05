@@ -7,9 +7,9 @@ import {
   HandleFoundJobOffer,
 } from "../services/JobOffer.service";
 
-export class FnaticCompany implements CompanyScraper {
-  company = "Fnatic";
-  mainUrl = "https://fnatic.com";
+export class VitalityCompany implements CompanyScraper {
+  company = "Vitality";
+  mainUrl = "https://team-vitality.welcomekit.co/";
   linksToOffers: string[] = [];
 
   scrapeInfo() {
@@ -21,12 +21,13 @@ export class FnaticCompany implements CompanyScraper {
   async scrapeLinks() {
     this.linksToOffers = [];
 
-    const response = await axios.get(this.mainUrl + "/careers");
+    const response = await axios.get(this.mainUrl);
 
     const $ = cheerio.load(response.data);
 
     $("a").each((index, elem) => {
-      $(elem).attr("href")?.includes("/careers/", 0) &&
+      $(elem).attr("href")?.includes("/jobs/", 0) &&
+        $(elem).attr("href") !== "/jobs/candidatures-spontanees" &&
         this.linksToOffers.push($(elem).attr("href") as string);
     });
   }
@@ -35,19 +36,11 @@ export class FnaticCompany implements CompanyScraper {
     const response = await axios.get(this.mainUrl + url);
 
     const $ = cheerio.load(response.data);
-    //remove images
-    $(".relative").remove();
-    $("h2").before("\n");
-    $("h2").after("\n");
-    $("li").before(" - ");
-    $("li").after("\n");
 
     const jobName = $("h1").first().text().trim();
-    const jobLocation = $("strong").first().text().trim();
+    const jobLocation = $(".sticky-header-details ul li").first().text();
 
-    $("h1").remove();
-    $("p").first().remove();
-    const jobDescription = $('div[class*="prose_prose"]')
+    const jobDescription = $(".main-content.job-content.text-formated")
       .text()
       .trim()
       .replace(/\n\n+/g, "\n\n");

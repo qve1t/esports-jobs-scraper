@@ -7,9 +7,9 @@ import {
   HandleFoundJobOffer,
 } from "../services/JobOffer.service";
 
-export class FnaticCompany implements CompanyScraper {
-  company = "Fnatic";
-  mainUrl = "https://fnatic.com";
+export class ExcelCompany implements CompanyScraper {
+  company = "Excel";
+  mainUrl = "";
   linksToOffers: string[] = [];
 
   scrapeInfo() {
@@ -21,33 +21,30 @@ export class FnaticCompany implements CompanyScraper {
   async scrapeLinks() {
     this.linksToOffers = [];
 
-    const response = await axios.get(this.mainUrl + "/careers");
+    const response = await axios.get("https://xl.gg/pages/careers");
 
     const $ = cheerio.load(response.data);
 
     $("a").each((index, elem) => {
-      $(elem).attr("href")?.includes("/careers/", 0) &&
+      $(elem).attr("href")?.includes("/hr.breathehr.com/", 0) &&
         this.linksToOffers.push($(elem).attr("href") as string);
     });
   }
 
   async scrapeJobOffer(url: string): Promise<JobOffer> {
-    const response = await axios.get(this.mainUrl + url);
-
+    const response = await axios.get(url);
+    const locationResponse = await axios.get("https://xl.gg/pages/careers");
     const $ = cheerio.load(response.data);
-    //remove images
-    $(".relative").remove();
-    $("h2").before("\n");
-    $("h2").after("\n");
+    const $lr = cheerio.load(locationResponse.data);
+
+    const jobName = $(".job-title").first().text().trim();
+    const jobLocation = $lr(`[href=${url}] .sub-title`).first().text().trim();
+
+    $("strong").before("\n");
+    $("strong").after("\n");
     $("li").before(" - ");
-    $("li").after("\n");
 
-    const jobName = $("h1").first().text().trim();
-    const jobLocation = $("strong").first().text().trim();
-
-    $("h1").remove();
-    $("p").first().remove();
-    const jobDescription = $('div[class*="prose_prose"]')
+    const jobDescription = $(".vacancy-subsection-details")
       .text()
       .trim()
       .replace(/\n\n+/g, "\n\n");

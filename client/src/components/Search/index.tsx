@@ -1,14 +1,11 @@
 import { PageStateInterface } from "../../interfaces/pageState.interface";
 
-interface SearchListInputInterface {
+interface SearchListInputProps {
   pageState: PageStateInterface;
   setPageState: React.Dispatch<React.SetStateAction<PageStateInterface>>;
 }
 
-const SearchComponent = ({
-  pageState,
-  setPageState,
-}: SearchListInputInterface) => {
+const SearchComponent = ({ pageState, setPageState }: SearchListInputProps) => {
   const setText = (text: string) => {
     setPageState({
       ...pageState,

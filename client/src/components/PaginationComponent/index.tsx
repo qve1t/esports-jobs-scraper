@@ -2,7 +2,7 @@ import { LoadingStateInterface } from "../../interfaces/fetch.interface";
 import { PageStateInterface } from "../../interfaces/pageState.interface";
 import { StandardButton } from "../Buttons";
 
-interface PaginationInterface {
+interface PaginationProps {
   resultsLength: number;
   pageState: PageStateInterface;
   setPageState: React.Dispatch<React.SetStateAction<PageStateInterface>>;
@@ -16,7 +16,7 @@ const PaginationComponent = ({
   resultsLength,
   setPageState,
   setPageLoadingState,
-}: PaginationInterface) => {
+}: PaginationProps) => {
   const setPage = (page: number) => {
     setPageState({
       ...pageState,
