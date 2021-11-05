@@ -1,5 +1,6 @@
 import { LoadingStateInterface } from "../../interfaces/fetch.interface";
 import { PageStateInterface } from "../../interfaces/pageState.interface";
+import { StandardButton } from "../Buttons";
 
 interface PaginationInterface {
   resultsLength: number;
@@ -36,20 +37,16 @@ const PaginationComponent = ({
           : pageState.count
       } of ${pageState.count} results`}</p>
       <div>
-        <button
-          className="px-4 py-2 rounded-md border-2 border-pink-200 bg-white text-pink-500 hover:text-white hover:bg-pink-500 hover:border-pink-500 transition-colors disabled:cursor-default disabled:bg-white disabled:text-pink-500 disabled:border-pink-200 disabled:opacity-50"
+        <StandardButton
           disabled={pageState.page === 0}
           onClick={() => setPage(pageState.page - 1)}
-        >
-          Previous
-        </button>
-        <button
-          className="px-4 py-2 ml-2 rounded-md border-2 border-pink-200 bg-white text-pink-500 hover:text-white hover:bg-pink-500 hover:border-pink-500 transition-colors disabled:cursor-default disabled:bg-white disabled:text-pink-500 disabled:border-pink-200 disabled:opacity-50"
+          text="Previous"
+        />
+        <StandardButton
           disabled={pagesNumber < 0 || pageState.page === pagesNumber}
           onClick={() => setPage(pageState.page + 1)}
-        >
-          Next
-        </button>
+          text="Next"
+        />
       </div>
     </div>
   );

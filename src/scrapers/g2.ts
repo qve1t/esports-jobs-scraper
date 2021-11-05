@@ -32,12 +32,16 @@ export class G2Company implements CompanyScraper {
 
     const $ = cheerio.load(response.data);
 
+    $("h3").remove();
+    $("li").before(" - ");
+    $("b").before("\n");
+
     const jobName = $("h1.headline-tt").text().trim();
     const jobLocation = $('li:contains("Location:")')
       .text()
       .split(":")[1]
       .trim();
-    const jobDescription = $("article").text().trim();
+    const jobDescription = $("article").first().text().trim();
 
     return {
       company: this.company,

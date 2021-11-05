@@ -32,9 +32,16 @@ export class FnaticCompany implements CompanyScraper {
     const $ = cheerio.load(response.data);
     //remove images
     $(".relative").remove();
+    $("h2").before("\n");
+    $("h2").after("\n");
+    $("li").before(" - ");
+    $("li").after("\n");
 
     const jobName = $("h1").first().text().trim();
     const jobLocation = $("strong").first().text().trim();
+
+    $("h1").remove();
+    $("p").first().remove();
     const jobDescription = $('div[class*="prose_prose"]').text().trim();
 
     return {
