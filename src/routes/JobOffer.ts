@@ -1,8 +1,5 @@
 import { Router } from "express";
-import {
-  GetJobOfferDetails,
-  GetJobOffersList,
-} from "../services/JobOffer.service";
+import { JobOfferService } from "../services/JobOffer.service";
 
 const JobOfferRouter = Router();
 
@@ -12,7 +9,11 @@ JobOfferRouter.get("/api/getoffers/", async (req, res) => {
     const page = parseInt(req.query.page as string) || 0;
     const limit = parseInt(req.query.limit as string) || 15;
 
-    const response = await GetJobOffersList(search as string, page, limit);
+    const response = await JobOfferService.GetJobOffersList(
+      search as string,
+      page,
+      limit
+    );
     res.send(response);
   } catch (error) {
     res.status(500).send({ error: "Server error appeared" });
@@ -23,7 +24,7 @@ JobOfferRouter.get("/api/offer/:id", async (req, res) => {
   try {
     const id = req.params.id;
 
-    const response = await GetJobOfferDetails(id);
+    const response = await JobOfferService.GetJobOfferDetails(id);
 
     if (response) {
       res.send(response);

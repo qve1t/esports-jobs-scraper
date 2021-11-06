@@ -2,8 +2,10 @@ import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { JobOfferModelInterface } from "../interfaces/JobOfferModel.interface";
 
 @Entity()
-//   implements JobOfferModelInterface
-export class JobOfferEntity extends BaseEntity {
+export class JobOfferEntity
+  extends BaseEntity
+  implements JobOfferModelInterface
+{
   @PrimaryGeneratedColumn("uuid")
   _id: string;
 

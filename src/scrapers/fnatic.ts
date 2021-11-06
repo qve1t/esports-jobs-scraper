@@ -2,15 +2,17 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 import { CompanyScraper } from "../interfaces/companyScraper.interface";
 import { JobOffer } from "../interfaces/JobOffer.interface";
-import {
-  DeleteOldOffers,
-  HandleFoundJobOffer,
-} from "../services/JobOffer.service";
+import { ScraperMenagerInterface } from "../interfaces/ScraperMenager.interface";
+import { JobOfferService } from "../services/JobOffer.service";
 
 export class FnaticCompany implements CompanyScraper {
   company = "Fnatic";
   mainUrl = "https://fnatic.com";
   linksToOffers: string[] = [];
+
+  constructor(scraperMenager: ScraperMenagerInterface) {
+    scraperMenager.addScraper(this);
+  }
 
   scrapeInfo() {
     console.log(
@@ -67,11 +69,15 @@ export class FnaticCompany implements CompanyScraper {
     await Promise.all(
       this.linksToOffers.map(async (elem) => {
         const offer = await this.scrapeJobOffer(elem);
-        HandleFoundJobOffer(offer);
+        JobOfferService.HandleFoundJobOffer(offer);
       })
     );
 
-    await DeleteOldOffers(this.company, this.mainUrl, this.linksToOffers);
+    await JobOfferService.DeleteOldOffers(
+      this.company,
+      this.mainUrl,
+      this.linksToOffers
+    );
 
     this.scrapeInfo();
   }
