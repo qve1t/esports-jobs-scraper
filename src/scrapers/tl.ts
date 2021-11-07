@@ -5,8 +5,8 @@ import { JobOffer } from "../interfaces/JobOffer.interface";
 import { ScraperMenagerInterface } from "../interfaces/ScraperMenager.interface";
 import { JobOfferService } from "../services/JobOffer.service";
 
-export class ExcelCompany implements CompanyScraper {
-  company = "Excel";
+export class TLCompany implements CompanyScraper {
+  company = "Team Liquid";
   mainUrl = "";
   linksToOffers: string[] = [];
 
@@ -23,12 +23,15 @@ export class ExcelCompany implements CompanyScraper {
   async scrapeLinks() {
     this.linksToOffers = [];
 
-    const response = await axios.get("https://xl.gg/pages/careers");
+    const response = await axios.get(
+      "https://teamliquid.teamtailor.com/jobs?editor=true&preview=true"
+    );
 
     const $ = cheerio.load(response.data);
 
     $("a").each((index, elem) => {
-      $(elem).attr("href")?.includes("/hr.breathehr.com/", 0) &&
+      $(elem).attr("href")?.includes("/careers.teamliquid.com/jobs/", 0) &&
+        !$(elem).attr("href")?.includes("early-careers") &&
         this.linksToOffers.push($(elem).attr("href") as string);
     });
 
@@ -37,18 +40,23 @@ export class ExcelCompany implements CompanyScraper {
 
   async scrapeJobOffer(url: string): Promise<JobOffer> {
     const response = await axios.get(url);
-    const locationResponse = await axios.get("https://xl.gg/pages/careers");
+
     const $ = cheerio.load(response.data);
-    const $lr = cheerio.load(locationResponse.data);
-
-    const jobName = $(".job-title").first().text().trim();
-    const jobLocation = $lr(`[href=${url}] .sub-title`).first().text().trim();
-
-    $("strong").before("\n");
-    $("strong").after("\n");
+    $("p").before("\n");
+    $("p").after("\n");
     $("li").before(" - ");
+    $("li").after("\n");
 
-    const jobDescription = $(".vacancy-subsection-details")
+    const jobName = $("h1").first().text().trim();
+    const jobLocation = $("main > section > div > div > div")
+      .first()
+      .text()
+      .trim()
+      .split("·")[1];
+
+    const jobDescription = $(
+      'div[data-controller="careersite--responsive-video"]'
+    )
       .text()
       .trim()
       .replace(/\n\n+/g, "\n\n");
@@ -58,7 +66,7 @@ export class ExcelCompany implements CompanyScraper {
       name: jobName,
       location: jobLocation,
       description: jobDescription,
-      url: this.mainUrl + url,
+      url: url,
     };
   }
 

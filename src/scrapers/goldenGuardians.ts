@@ -5,9 +5,9 @@ import { JobOffer } from "../interfaces/JobOffer.interface";
 import { ScraperMenagerInterface } from "../interfaces/ScraperMenager.interface";
 import { JobOfferService } from "../services/JobOffer.service";
 
-export class ExcelCompany implements CompanyScraper {
-  company = "Excel";
-  mainUrl = "";
+export class GoldenGuardiansCompany implements CompanyScraper {
+  company = "Golden Guardians";
+  mainUrl = "https://www.goldenguardians.com";
   linksToOffers: string[] = [];
 
   constructor(scraperMenager: ScraperMenagerInterface) {
@@ -23,12 +23,12 @@ export class ExcelCompany implements CompanyScraper {
   async scrapeLinks() {
     this.linksToOffers = [];
 
-    const response = await axios.get("https://xl.gg/pages/careers");
+    const response = await axios.get(this.mainUrl + "/jobs");
 
     const $ = cheerio.load(response.data);
 
     $("a").each((index, elem) => {
-      $(elem).attr("href")?.includes("/hr.breathehr.com/", 0) &&
+      $(elem).attr("href")?.includes("/jobs/", 0) &&
         this.linksToOffers.push($(elem).attr("href") as string);
     });
 
@@ -36,19 +36,23 @@ export class ExcelCompany implements CompanyScraper {
   }
 
   async scrapeJobOffer(url: string): Promise<JobOffer> {
-    const response = await axios.get(url);
-    const locationResponse = await axios.get("https://xl.gg/pages/careers");
+    const response = await axios.get(this.mainUrl + url);
+
     const $ = cheerio.load(response.data);
-    const $lr = cheerio.load(locationResponse.data);
-
-    const jobName = $(".job-title").first().text().trim();
-    const jobLocation = $lr(`[href=${url}] .sub-title`).first().text().trim();
-
+    //remove images
+    $("a").remove();
     $("strong").before("\n");
     $("strong").after("\n");
     $("li").before(" - ");
 
-    const jobDescription = $(".vacancy-subsection-details")
+    const jobName = $("h1").first().text().trim();
+    const jobLocation = "";
+
+    $("h1").remove();
+
+    const jobDescription = $("div")
+      .not(".src")
+      .first()
       .text()
       .trim()
       .replace(/\n\n+/g, "\n\n");

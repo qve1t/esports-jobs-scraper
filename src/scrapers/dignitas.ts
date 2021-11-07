@@ -5,8 +5,8 @@ import { JobOffer } from "../interfaces/JobOffer.interface";
 import { ScraperMenagerInterface } from "../interfaces/ScraperMenager.interface";
 import { JobOfferService } from "../services/JobOffer.service";
 
-export class ExcelCompany implements CompanyScraper {
-  company = "Excel";
+export class DignitasCompany implements CompanyScraper {
+  company = "Dignitas";
   mainUrl = "";
   linksToOffers: string[] = [];
 
@@ -23,12 +23,13 @@ export class ExcelCompany implements CompanyScraper {
   async scrapeLinks() {
     this.linksToOffers = [];
 
-    const response = await axios.get("https://xl.gg/pages/careers");
+    const response = await axios.get("https://dignitas.gg/career");
 
     const $ = cheerio.load(response.data);
 
-    $("a").each((index, elem) => {
-      $(elem).attr("href")?.includes("/hr.breathehr.com/", 0) &&
+    $("li > a").each((index, elem) => {
+      !$(elem).attr("href")?.includes("/career", 0) &&
+        !$(elem).attr("href")?.includes("/articles", 0) &&
         this.linksToOffers.push($(elem).attr("href") as string);
     });
 
@@ -37,28 +38,38 @@ export class ExcelCompany implements CompanyScraper {
 
   async scrapeJobOffer(url: string): Promise<JobOffer> {
     const response = await axios.get(url);
-    const locationResponse = await axios.get("https://xl.gg/pages/careers");
-    const $ = cheerio.load(response.data);
-    const $lr = cheerio.load(locationResponse.data);
 
-    const jobName = $(".job-title").first().text().trim();
-    const jobLocation = $lr(`[href=${url}] .sub-title`).first().text().trim();
+    const $ = cheerio.load(response.data);
 
     $("strong").before("\n");
-    $("strong").after("\n");
+    $("p").after("\n");
+    $("h2").before("\n");
+    $("h2").after("\n");
     $("li").before(" - ");
+    $("li").after("\n");
 
-    const jobDescription = $(".vacancy-subsection-details")
+    const jobName = $("div > p").not(".styles_container").first().text().trim();
+    const jobLocation = $('div > p:contains("Job Title")')
+      .first()
       .text()
       .trim()
+      .split("Location:")[1]
+      .split(",")[0];
+
+    const jobDescription = $("div")
+      .not(".styles_container")
+      .first()
+      .text()
+      .trim()
+      .split("Job Title")[1]
       .replace(/\n\n+/g, "\n\n");
 
     return {
       company: this.company,
       name: jobName,
       location: jobLocation,
-      description: jobDescription,
-      url: this.mainUrl + url,
+      description: "Job Title" + jobDescription,
+      url: url,
     };
   }
 

@@ -6,6 +6,10 @@ export class JobOfferService {
   static async CreateJobOffer(data: JobOffer): Promise<void> {
     const model = new JobOfferEntity();
 
+    if (!data.name || !data.description) {
+      return;
+    }
+
     model.name = data.name;
     model.company = data.company;
     model.description = data.description;
@@ -22,6 +26,7 @@ export class JobOfferService {
     model.name = data.name;
     model.location = data.location;
     model.description = data.description;
+    model.url = data.url;
 
     await model.save();
   }

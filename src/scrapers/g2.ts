@@ -30,6 +30,8 @@ export class G2Company implements CompanyScraper {
     linksTable.children("a").each((index, elem) => {
       this.linksToOffers.push($(elem).attr("href") as string);
     });
+
+    this.linksToOffers = [...new Set(this.linksToOffers)];
   }
 
   async scrapeJobOffer(url: string): Promise<JobOffer> {

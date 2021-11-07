@@ -5,9 +5,9 @@ import { JobOffer } from "../interfaces/JobOffer.interface";
 import { ScraperMenagerInterface } from "../interfaces/ScraperMenager.interface";
 import { JobOfferService } from "../services/JobOffer.service";
 
-export class ExcelCompany implements CompanyScraper {
-  company = "Excel";
-  mainUrl = "";
+export class ThievesCompany implements CompanyScraper {
+  company = "100 Thieves";
+  mainUrl = "https://100thieves.com/pages/careers?gh_jid=";
   linksToOffers: string[] = [];
 
   constructor(scraperMenager: ScraperMenagerInterface) {
@@ -23,32 +23,36 @@ export class ExcelCompany implements CompanyScraper {
   async scrapeLinks() {
     this.linksToOffers = [];
 
-    const response = await axios.get("https://xl.gg/pages/careers");
+    const response = await axios.get(
+      "https://boards.greenhouse.io/embed/job_board?for=100thieves&b=https://100thieves.com/pages/careers"
+    );
 
     const $ = cheerio.load(response.data);
 
     $("a").each((index, elem) => {
-      $(elem).attr("href")?.includes("/hr.breathehr.com/", 0) &&
-        this.linksToOffers.push($(elem).attr("href") as string);
+      $(elem).attr("href")?.includes("/www.100thieves.com/careers", 0) &&
+        this.linksToOffers.push(
+          $(elem).attr("href")?.split("jid=")[1] as string
+        );
     });
 
     this.linksToOffers = [...new Set(this.linksToOffers)];
   }
 
   async scrapeJobOffer(url: string): Promise<JobOffer> {
-    const response = await axios.get(url);
-    const locationResponse = await axios.get("https://xl.gg/pages/careers");
+    const response = await axios.get(
+      `https://boards.greenhouse.io/embed/job_app?for=100thieves&token=${url}&b=https://100thieves.com/pages/careers`
+    );
+
     const $ = cheerio.load(response.data);
-    const $lr = cheerio.load(locationResponse.data);
-
-    const jobName = $(".job-title").first().text().trim();
-    const jobLocation = $lr(`[href=${url}] .sub-title`).first().text().trim();
-
-    $("strong").before("\n");
-    $("strong").after("\n");
+    $("p").before("\n");
+    $("p").after("\n");
     $("li").before(" - ");
 
-    const jobDescription = $(".vacancy-subsection-details")
+    const jobName = $("h1.app-title").first().text().trim();
+    const jobLocation = $("div.location").first().text().trim().split(",")[0];
+
+    const jobDescription = $("div #content")
       .text()
       .trim()
       .replace(/\n\n+/g, "\n\n");

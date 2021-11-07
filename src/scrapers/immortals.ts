@@ -4,10 +4,11 @@ import { CompanyScraper } from "../interfaces/companyScraper.interface";
 import { JobOffer } from "../interfaces/JobOffer.interface";
 import { ScraperMenagerInterface } from "../interfaces/ScraperMenager.interface";
 import { JobOfferService } from "../services/JobOffer.service";
+import { clearHtmlTags } from "../utils/clearHtmlTags";
 
-export class ExcelCompany implements CompanyScraper {
-  company = "Excel";
-  mainUrl = "";
+export class ImmortalsCompany implements CompanyScraper {
+  company = "Immortals";
+  mainUrl = "https://apply.workable.com/immortals/j/";
   linksToOffers: string[] = [];
 
   constructor(scraperMenager: ScraperMenagerInterface) {
@@ -21,44 +22,47 @@ export class ExcelCompany implements CompanyScraper {
   }
 
   async scrapeLinks() {
-    this.linksToOffers = [];
+    const response = await axios.post(
+      "https://apply.workable.com/api/v3/accounts/immortals/jobs",
+      {
+        department: [],
+        location: [],
+        query: "",
+        remote: [],
+        worktype: [],
+      }
+    );
 
-    const response = await axios.get("https://xl.gg/pages/careers");
-
-    const $ = cheerio.load(response.data);
-
-    $("a").each((index, elem) => {
-      $(elem).attr("href")?.includes("/hr.breathehr.com/", 0) &&
-        this.linksToOffers.push($(elem).attr("href") as string);
+    response.data.results.forEach((elem: any) => {
+      this.linksToOffers.push(elem.shortcode);
     });
 
     this.linksToOffers = [...new Set(this.linksToOffers)];
   }
 
   async scrapeJobOffer(url: string): Promise<JobOffer> {
-    const response = await axios.get(url);
-    const locationResponse = await axios.get("https://xl.gg/pages/careers");
-    const $ = cheerio.load(response.data);
-    const $lr = cheerio.load(locationResponse.data);
+    const response = await axios.get(
+      "https://apply.workable.com/api/v2/accounts/immortals/jobs/" + url
+    );
 
-    const jobName = $(".job-title").first().text().trim();
-    const jobLocation = $lr(`[href=${url}] .sub-title`).first().text().trim();
-
-    $("strong").before("\n");
-    $("strong").after("\n");
-    $("li").before(" - ");
-
-    const jobDescription = $(".vacancy-subsection-details")
-      .text()
-      .trim()
-      .replace(/\n\n+/g, "\n\n");
+    const jobName = response.data.title || "";
+    const jobLocation =
+      response.data.location.city + (response.data.remote ? ", Remote" : "") ||
+      "";
+    const jobDescription =
+      "Description \n" +
+      clearHtmlTags(response.data.description) +
+      "Requirements \n" +
+      clearHtmlTags(response.data.requirements) +
+      "Benefits \n" +
+      clearHtmlTags(response.data.benefits).split("at <a")[0];
 
     return {
       company: this.company,
       name: jobName,
       location: jobLocation,
       description: jobDescription,
-      url: this.mainUrl + url,
+      url: this.mainUrl + response.data.shortcode,
     };
   }
 

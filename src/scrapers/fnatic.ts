@@ -31,6 +31,8 @@ export class FnaticCompany implements CompanyScraper {
       $(elem).attr("href")?.includes("/careers/", 0) &&
         this.linksToOffers.push($(elem).attr("href") as string);
     });
+
+    this.linksToOffers = [...new Set(this.linksToOffers)];
   }
 
   async scrapeJobOffer(url: string): Promise<JobOffer> {

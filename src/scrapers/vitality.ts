@@ -32,6 +32,8 @@ export class VitalityCompany implements CompanyScraper {
         $(elem).attr("href") !== "/jobs/candidatures-spontanees" &&
         this.linksToOffers.push($(elem).attr("href") as string);
     });
+
+    this.linksToOffers = [...new Set(this.linksToOffers)];
   }
 
   async scrapeJobOffer(url: string): Promise<JobOffer> {
