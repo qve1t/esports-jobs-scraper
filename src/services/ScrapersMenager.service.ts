@@ -14,6 +14,10 @@ export class ScrapersMenager implements ScraperMenagerInterface {
         await elem.scrapeAllJobOffers();
       })
     );
-    console.log("[server]: All data scraped");
+    console.log(
+      `[server]: All data scraped at: ${
+        new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString()
+      }`
+    );
   }
 }

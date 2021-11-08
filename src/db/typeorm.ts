@@ -11,7 +11,7 @@ const connectDB = async (): Promise<void> => {
     entities: ["src/entity/*.ts"],
     bigNumberStrings: false,
     logging: false,
-    synchronize: true,
+    synchronize: process.env.ENV === "production" ? false : true,
   });
 
   console.log("[database]: Connected");

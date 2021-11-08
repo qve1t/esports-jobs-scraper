@@ -1,5 +1,7 @@
+import "dotenv/config";
 import express from "express";
 import "reflect-metadata";
+import { CronJob } from "cron";
 
 import connectDB from "./src/db/typeorm";
 import JobOfferRouter from "./src/routes/JobOffer";
@@ -19,6 +21,7 @@ import { NIPCompany } from "./src/scrapers/nip";
 import { TLCompany } from "./src/scrapers/tl";
 import { VitalityCompany } from "./src/scrapers/vitality";
 import { ScrapersMenager } from "./src/services/ScrapersMenager.service";
+import path from "path";
 
 connectDB();
 
@@ -26,6 +29,8 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(JobOfferRouter);
+
+app.use(express.static(path.join(__dirname, "./client/build")));
 
 const scraper = new ScrapersMenager();
 
@@ -45,8 +50,16 @@ const Heroic = new HeroicCompany(scraper);
 const NIP = new NIPCompany(scraper);
 const CLG = new CLGCompany(scraper);
 
-// scraper.scrapeData();
+scraper.scrapeData();
+const cronJob = new CronJob("* * */12 * * *", () => {
+  scraper.scrapeData();
+});
+
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "./client/build", "index.html"));
+});
 
 app.listen(PORT, () => {
-  console.log(`[server]: Server is running at https://localhost:${PORT}`);
+  console.log(`[server]: Server is running at port ${PORT}`);
+  cronJob.start();
 });
