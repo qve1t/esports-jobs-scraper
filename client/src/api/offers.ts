@@ -8,12 +8,13 @@ import { apiResponse, fetchError } from "../utils/apiResponse";
 
 export const getOffersList = async ({
   search,
+  org,
   page,
   limit,
 }: GetOffersListRequest): Promise<FetchResponse<SimpleJobOfferList | null>> => {
   try {
     const response = await fetch(
-      `/api/getoffers/?search=${search}&page=${page}&limit=${limit}`,
+      `/api/getoffers/?search=${search}&org=${org}&page=${page}&limit=${limit}`,
       {
         method: "get",
         headers: {

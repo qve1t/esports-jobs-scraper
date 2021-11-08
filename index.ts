@@ -45,7 +45,7 @@ const Heroic = new HeroicCompany(scraper);
 const NIP = new NIPCompany(scraper);
 const CLG = new CLGCompany(scraper);
 
-scraper.scrapeData();
+// scraper.scrapeData();
 
 app.listen(PORT, () => {
   console.log(`[server]: Server is running at https://localhost:${PORT}`);

@@ -3,6 +3,7 @@ export interface PageStateInterface {
   limit: number;
   count: number;
   search: string;
+  org: string;
 }
 
 export interface PageLoadingStateInterface {

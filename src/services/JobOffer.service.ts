@@ -43,14 +43,14 @@ export class JobOfferService {
 
   static async GetJobOffersList(
     search: string,
+    org: string,
     page: number,
     limit: number
   ): Promise<SimpleJobOfferList> {
     const [offersList, count] = await JobOfferEntity.findAndCount({
       where: [
-        { company: Like(`%${search}%`) },
-        { name: Like(`%${search}%`) },
-        { location: Like(`%${search}%`) },
+        { name: Like(`%${search}%`), company: Like(`%${org}%`) },
+        { location: Like(`%${search}%`), company: Like(`%${org}%`) },
       ],
       order: { company: "ASC" },
       skip: page * limit,

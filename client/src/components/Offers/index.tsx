@@ -17,6 +17,7 @@ const Offers = () => {
     count: 0,
     limit: 15,
     search: "",
+    org: "",
   });
   const [pageLoadingState, setPageLoadingState] =
     useState<PageLoadingStateInterface>({
@@ -28,6 +29,7 @@ const Offers = () => {
     const getOffers = async () => {
       const fetchedData = await getOffersList({
         search: pageState.search,
+        org: pageState.org,
         limit: pageState.limit,
         page: pageState.page,
       });
@@ -36,6 +38,7 @@ const Offers = () => {
         setPageState({
           page: pageState.page,
           search: pageState.search,
+          org: pageState.org,
           count: fetchedData.response.count,
           limit: 15,
         });
@@ -46,7 +49,7 @@ const Offers = () => {
     };
 
     getOffers();
-  }, [pageState.page, pageState.limit, pageState.search]);
+  }, [pageState.page, pageState.limit, pageState.search, pageState.org]);
 
   return (
     <OffersWrapper>

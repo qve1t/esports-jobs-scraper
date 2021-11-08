@@ -8,9 +8,11 @@ JobOfferRouter.get("/api/getoffers/", async (req, res) => {
     const search = req.query.search || "";
     const page = parseInt(req.query.page as string) || 0;
     const limit = parseInt(req.query.limit as string) || 15;
+    const organization = (req.query.org as string) || "";
 
     const response = await JobOfferService.GetJobOffersList(
       search as string,
+      organization as string,
       page,
       limit
     );

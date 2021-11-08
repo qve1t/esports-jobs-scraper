@@ -8,6 +8,7 @@ export interface JobOffer {
 
 export interface GetOffersListRequest {
   search: string;
+  org: string;
   page: number;
   limit: number;
 }
