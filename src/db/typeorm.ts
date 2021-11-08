@@ -8,7 +8,7 @@ const connectDB = async (): Promise<void> => {
     username: process.env.DB_USERNAME || "root",
     password: process.env.DB_PASSWORD || "",
     database: process.env.DB_NAME || "scraper",
-    entities: ["src/entity/*.ts"],
+    entities: ["src/entity/*{.ts,.js}"],
     bigNumberStrings: false,
     logging: false,
     synchronize: process.env.ENV === "production" ? false : true,
