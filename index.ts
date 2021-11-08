@@ -5,6 +5,7 @@ import connectDB from "./src/db/typeorm";
 import JobOfferRouter from "./src/routes/JobOffer";
 import { ThievesCompany } from "./src/scrapers/100thieves";
 import { C9Company } from "./src/scrapers/c9";
+import { CLGCompany } from "./src/scrapers/clg";
 import { ComplexityCompany } from "./src/scrapers/complexity";
 import { DignitasCompany } from "./src/scrapers/dignitas";
 import { EGCompany } from "./src/scrapers/evilGeniuses";
@@ -12,7 +13,9 @@ import { ExcelCompany } from "./src/scrapers/excel";
 import { FnaticCompany } from "./src/scrapers/fnatic";
 import { G2Company } from "./src/scrapers/g2";
 import { GoldenGuardiansCompany } from "./src/scrapers/goldenGuardians";
+import { HeroicCompany } from "./src/scrapers/heroic";
 import { ImmortalsCompany } from "./src/scrapers/immortals";
+import { NIPCompany } from "./src/scrapers/nip";
 import { TLCompany } from "./src/scrapers/tl";
 import { VitalityCompany } from "./src/scrapers/vitality";
 import { ScrapersMenager } from "./src/services/ScrapersMenager.service";
@@ -38,6 +41,9 @@ const Dignitas = new DignitasCompany(scraper);
 const Immortals = new ImmortalsCompany(scraper);
 const Complexity = new ComplexityCompany(scraper);
 const GG = new GoldenGuardiansCompany(scraper);
+const Heroic = new HeroicCompany(scraper);
+const NIP = new NIPCompany(scraper);
+const CLG = new CLGCompany(scraper);
 
 scraper.scrapeData();
 

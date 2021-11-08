@@ -10,6 +10,9 @@ import Dignitas from "./dig.png";
 import Immortals from "./immortals.png";
 import Complexity from "./complexity.png";
 import GG from "./gg.png";
+import Heroic from "./heroic.png";
+import Nip from "./nip.png";
+import Clg from "./clg.png";
 
 interface LogoProps {
   name: string;
@@ -41,6 +44,12 @@ const getImage = (name: string) => {
       return Complexity;
     case "Golden Guardians":
       return GG;
+    case "Heroic":
+      return Heroic;
+    case "Ninjas in Pyjamas":
+      return Nip;
+    case "CLG":
+      return Clg;
   }
 };
 
