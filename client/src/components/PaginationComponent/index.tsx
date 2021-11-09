@@ -43,6 +43,7 @@ const PaginationComponent = ({
           text="Previous"
         />
         <StandardButton
+          className="mt-2 sm:mt-0"
           disabled={pagesNumber < 0 || pageState.page === pagesNumber}
           onClick={() => setPage(pageState.page + 1)}
           text="Next"

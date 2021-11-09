@@ -102,7 +102,7 @@ const SearchComponent = ({ pageState, setPageState }: SearchListInputProps) => {
       <StandardButton
         onClick={clearSearch}
         text="Clear"
-        className="mb-4 ml-8"
+        className="mb-4 sm:ml-8"
       />
     </div>
   );

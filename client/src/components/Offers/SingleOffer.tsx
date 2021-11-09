@@ -7,7 +7,7 @@ const SingleOffer = ({ _id, company, location, name }: SimpleJobOffer) => {
     <Link
       to={`/offer/${_id}`}
       target="_blank"
-      className="flex flex-col sm:flex-row gap-0.5 sm:gap-5 px-2 py-4 my-1 rounded-md border-2 border-pink-200 bg-white transition-colors hover:bg-pink-50 hover:border-pink-300"
+      className="flex flex-col items-center sm:flex-row gap-0.5 sm:gap-5 px-2 py-4 my-1 rounded-md border-2 border-pink-200 bg-white transition-colors hover:bg-pink-50 hover:border-pink-300"
     >
       <OrgLogo name={company} />
       <div>{name}</div>

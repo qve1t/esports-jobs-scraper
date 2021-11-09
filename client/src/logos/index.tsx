@@ -1,18 +1,18 @@
-import G2 from "./g2.png";
-import Fnatic from "./fnatic.png";
-import Vitality from "./vitality.png";
-import Excel from "./excel.png";
-import C9 from "./c9.png";
-import TL from "./tl.png";
-import Thieves from "./100thieves.png";
-import EG from "./eg.png";
-import Dignitas from "./dig.png";
-import Immortals from "./immortals.png";
-import Complexity from "./complexity.png";
-import GG from "./gg.png";
-import Heroic from "./heroic.png";
-import Nip from "./nip.png";
-import Clg from "./clg.png";
+import G2 from "./g2.svg";
+import Fnatic from "./fnatic.svg";
+import Vitality from "./vitality.svg";
+import Excel from "./excel.svg";
+import C9 from "./c9.svg";
+import TL from "./tl.svg";
+import Thieves from "./100thieves.svg";
+import EG from "./eg.svg";
+import Dignitas from "./dig.svg";
+import Immortals from "./immortals.svg";
+import Complexity from "./complexity.svg";
+import GG from "./gg.svg";
+import Heroic from "./heroic.svg";
+import Nip from "./nip.svg";
+import Clg from "./clg.svg";
 
 interface LogoProps {
   name: string;
@@ -54,7 +54,7 @@ const getImage = (name: string) => {
 };
 
 const OrgLogo = ({ name }: LogoProps) => {
-  return <img src={getImage(name)} alt={name} className="w-6 h-6" />;
+  return <img src={getImage(name)} alt={name} className="w-8 h-8" />;
 };
 
 export default OrgLogo;
