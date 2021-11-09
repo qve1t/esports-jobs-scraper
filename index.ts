@@ -50,16 +50,16 @@ const Heroic = new HeroicCompany(scraper);
 const NIP = new NIPCompany(scraper);
 const CLG = new CLGCompany(scraper);
 
-scraper.scrapeData();
-const cronJob = new CronJob("* * */12 * * *", () => {
-  scraper.scrapeData();
+const cronJob = new CronJob("* * */12 * * *", async () => {
+  await scraper.scrapeData();
 });
 
 app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "./client/build", "index.html"));
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`[server]: Server is running at port ${PORT}`);
+  await scraper.scrapeData();
   cronJob.start();
 });
