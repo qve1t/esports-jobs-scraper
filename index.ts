@@ -50,7 +50,7 @@ const Heroic = new HeroicCompany(scraper);
 const NIP = new NIPCompany(scraper);
 const CLG = new CLGCompany(scraper);
 
-const cronJob = new CronJob("* * */12 * * *", async () => {
+const cronJob = new CronJob("0 */12 * * *", async () => {
   await scraper.scrapeData();
 });
 
