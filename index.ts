@@ -22,6 +22,9 @@ import { TLCompany } from "./src/scrapers/tl";
 import { VitalityCompany } from "./src/scrapers/vitality";
 import { ScrapersMenager } from "./src/services/ScrapersMenager.service";
 import path from "path";
+import { RektGlobalCompany } from "./src/scrapers/rektGlobal";
+import { GuildCompany } from "./src/scrapers/guild";
+import { OveractiveCompany } from "./src/scrapers/overactive";
 
 connectDB();
 
@@ -49,6 +52,9 @@ const GG = new GoldenGuardiansCompany(scraper);
 const Heroic = new HeroicCompany(scraper);
 const NIP = new NIPCompany(scraper);
 const CLG = new CLGCompany(scraper);
+const RektGlobal = new RektGlobalCompany(scraper);
+const Guild = new GuildCompany(scraper);
+const OverActive = new OveractiveCompany(scraper);
 
 const cronJob = new CronJob("0 */12 * * *", async () => {
   await scraper.scrapeData();

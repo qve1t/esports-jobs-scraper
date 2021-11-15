@@ -13,6 +13,9 @@ import GG from "./gg.svg";
 import Heroic from "./heroic.svg";
 import Nip from "./nip.svg";
 import Clg from "./clg.svg";
+import Rekt from "./rekt.svg";
+import Guild from "./guild.svg";
+import Overactive from "./overactive.svg";
 
 interface LogoProps {
   name: string;
@@ -50,6 +53,12 @@ const getImage = (name: string) => {
       return Nip;
     case "CLG":
       return Clg;
+    case "ReKTGlobal":
+      return Rekt;
+    case "Guild Esports":
+      return Guild;
+    case "OverActive Media":
+      return Overactive;
   }
 };
 

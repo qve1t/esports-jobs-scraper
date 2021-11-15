@@ -19,9 +19,12 @@ const ORGS = [
   { value: "Fnatic", label: "Fnatic" },
   { value: "G2", label: "G2" },
   { value: "Golden Guardians", label: "Golden Guardians" },
+  { value: "Guild Esports", label: "Guild Esports" },
   { value: "Heroic", label: "Heroic" },
   { value: "Immortals", label: "Immortals" },
   { value: "Ninjas in Pyjamas", label: "Ninjas in Pyjamas" },
+  { value: "OverActive Media", label: "OverActive Media" },
+  { value: "ReKTGlobal", label: "ReKTGlobal" },
   { value: "Team Liquid", label: "Team Liquid" },
   { value: "Vitality", label: "Vitality" },
 ];
