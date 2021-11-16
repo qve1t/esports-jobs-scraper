@@ -1,11 +1,14 @@
 import { useEffect } from "react";
 import NotFound from "../components/404";
 import Layout from "../components/Layout";
+import useGaTracker from "../hooks/useGaTracker";
 
 const NoPage = () => {
   useEffect(() => {
-    document.title = "EsportsGO";
+    document.title = "esports-GO";
   }, []);
+
+  useGaTracker();
 
   return (
     <Layout>

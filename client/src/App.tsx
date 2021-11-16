@@ -6,7 +6,8 @@ import CookiesPage from "./pages/CookiesPage";
 import MainPage from "./pages/MainPage";
 import NoPage from "./pages/NoPage";
 import OfferPage from "./pages/OfferPage";
-function App() {
+
+const App = () => {
   return (
     <div className="main-area">
       <Router>
@@ -21,6 +22,6 @@ function App() {
       </Router>
     </div>
   );
-}
+};
 
 export default App;

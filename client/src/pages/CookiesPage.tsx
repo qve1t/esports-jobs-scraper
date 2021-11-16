@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import Layout from "../components/Layout";
+import useGaTracker from "../hooks/useGaTracker";
 
 const Paragraph = ({ children }: { children: string }) => {
   return <p className="py-4">{children}</p>;
@@ -11,16 +12,18 @@ const Header = ({ children }: { children: string }) => {
 
 const CookiesPage = () => {
   useEffect(() => {
-    document.title = "EsportsGO";
+    document.title = "esports-GO";
   }, []);
+
+  useGaTracker();
 
   return (
     <Layout>
-      <h1 className="text-5xl">Cookie Policy for esportsGo</h1>
+      <h1 className="text-5xl">Cookie Policy for esports-GO</h1>
 
       <Paragraph>
-        This is the Cookie Policy for esportsGo, accessible from
-        http://esportsgo.net
+        This is the Cookie Policy for esports-GO, accessible from
+        http://esports-go.net
       </Paragraph>
 
       <Header>What Are Cookies</Header>
@@ -114,7 +117,7 @@ const CookiesPage = () => {
       </Paragraph>
 
       <ul className="list-disc list-outside ml-4">
-        <li>Email: pietrek12@gmail.com</li>
+        <li>Email: contact@esports-go.net</li>
       </ul>
     </Layout>
   );
