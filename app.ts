@@ -56,9 +56,11 @@ const RektGlobal = new RektGlobalCompany(scraper);
 const Guild = new GuildCompany(scraper);
 const OverActive = new OveractiveCompany(scraper);
 
-const cronJob = new CronJob("0 */12 * * *", async () => {
+const cronJob = new CronJob("0 1,13 * * *", async () => {
   await scraper.scrapeData();
 });
+
+cronJob.start();
 
 app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "./client/build", "index.html"));
@@ -66,6 +68,5 @@ app.get("/*", (req, res) => {
 
 app.listen(PORT, async () => {
   console.log(`[server]: Server is running at port ${PORT}`);
-  await scraper.scrapeData();
-  cronJob.start();
+  process.env.ENV !== "production" && (await scraper.scrapeData());
 });

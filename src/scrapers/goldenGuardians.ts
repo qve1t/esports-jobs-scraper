@@ -23,47 +23,71 @@ export class GoldenGuardiansCompany implements CompanyScraper {
   async scrapeLinks() {
     this.linksToOffers = [];
 
-    const response = await axios.get(this.mainUrl + "/jobs");
+    try {
+      const response = await axios.get(this.mainUrl + "/jobs");
 
-    const $ = cheerio.load(response.data);
+      if (response.status === 200) {
+        const $ = cheerio.load(response.data);
 
-    $("a").each((index, elem) => {
-      $(elem).attr("href")?.includes("/jobs/", 0) &&
-        this.linksToOffers.push($(elem).attr("href") as string);
-    });
+        $("a").each((index, elem) => {
+          $(elem).attr("href")?.includes("/jobs/", 0) &&
+            this.linksToOffers.push($(elem).attr("href") as string);
+        });
 
-    this.linksToOffers = [...new Set(this.linksToOffers)];
+        this.linksToOffers = [...new Set(this.linksToOffers)];
+      }
+    } catch (error) {}
   }
 
   async scrapeJobOffer(url: string): Promise<JobOffer> {
-    const response = await axios.get(this.mainUrl + url);
+    try {
+      const response = await axios.get(this.mainUrl + url);
 
-    const $ = cheerio.load(response.data);
-    //remove images
-    $("a").remove();
-    $("strong").before("\n");
-    $("strong").after("\n");
-    $("li").before(" - ");
+      if (response.status !== 200) {
+        return {
+          company: "",
+          name: "",
+          location: "",
+          description: "",
+          url: "",
+        };
+      }
 
-    const jobName = $("h1").first().text().trim();
-    const jobLocation = "";
+      const $ = cheerio.load(response.data);
 
-    $("h1").remove();
+      $("a").remove();
+      $("strong").before("\n");
+      $("strong").after("\n");
+      $("li").before(" - ");
 
-    const jobDescription = $("div")
-      .not(".src")
-      .first()
-      .text()
-      .trim()
-      .replace(/\n\n+/g, "\n\n");
+      const jobName = $("h1").first().text().trim();
+      const jobLocation = "";
 
-    return {
-      company: this.company,
-      name: jobName,
-      location: jobLocation,
-      description: jobDescription,
-      url: this.mainUrl + url,
-    };
+      $("h1").remove();
+
+      const jobDescription = $("div")
+        .not(".src")
+        .first()
+        .text()
+        .trim()
+        .replace(/\n\n+/g, "\n\n");
+
+      return {
+        company: this.company,
+        name: jobName,
+        location: jobLocation,
+        description: jobDescription,
+        url: this.mainUrl + url,
+      };
+    } catch (error) {
+      return {
+        company: "",
+        name: "",
+        location: "",
+        description: "",
+        url: "",
+      };
+    }
   }
 
   async scrapeAllJobOffers() {

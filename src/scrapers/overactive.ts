@@ -22,49 +22,74 @@ export class OveractiveCompany implements CompanyScraper {
   }
 
   async scrapeLinks() {
-    const response = await axios.post(
-      "https://apply.workable.com/api/v3/accounts/overactive-media-group/jobs",
-      {
-        department: [],
-        location: [],
-        query: "",
-        remote: [],
-        worktype: [],
+    this.linksToOffers = [];
+    try {
+      const response = await axios.post(
+        "https://apply.workable.com/api/v3/accounts/overactive-media-group/jobs",
+        {
+          department: [],
+          location: [],
+          query: "",
+          remote: [],
+          worktype: [],
+        }
+      );
+
+      if (response.status === 200) {
+        response.data.results.forEach((elem: any) => {
+          this.linksToOffers.push(elem.shortcode);
+        });
+
+        this.linksToOffers = [...new Set(this.linksToOffers)];
       }
-    );
-
-    response.data.results.forEach((elem: any) => {
-      this.linksToOffers.push(elem.shortcode);
-    });
-
-    this.linksToOffers = [...new Set(this.linksToOffers)];
+    } catch (error) {}
   }
 
   async scrapeJobOffer(url: string): Promise<JobOffer> {
-    const response = await axios.get(
-      "https://apply.workable.com/api/v2/accounts/overactive-media-group/jobs/" +
-        url
-    );
+    try {
+      const response = await axios.get(
+        "https://apply.workable.com/api/v2/accounts/overactive-media-group/jobs/" +
+          url
+      );
 
-    const jobName = response.data.title || "";
-    const jobLocation =
-      response.data.location.city + (response.data.remote ? ", Remote" : "") ||
-      "";
-    const jobDescription =
-      "Description \n" +
-      clearHtmlTags(response.data.description) +
-      "Requirements \n" +
-      clearHtmlTags(response.data.requirements) +
-      "Benefits \n" +
-      clearHtmlTags(response.data.benefits).split("at <a")[0];
+      if (response.status !== 200) {
+        return {
+          company: "",
+          name: "",
+          location: "",
+          description: "",
+          url: "",
+        };
+      }
 
-    return {
-      company: this.company,
-      name: jobName,
-      location: jobLocation,
-      description: jobDescription,
-      url: this.mainUrl + response.data.shortcode,
-    };
+      const jobName = response.data.title || "";
+      const jobLocation =
+        response.data.location.city +
+          (response.data.remote ? ", Remote" : "") || "";
+      const jobDescription =
+        "Description \n" +
+        clearHtmlTags(response.data.description) +
+        "Requirements \n" +
+        clearHtmlTags(response.data.requirements) +
+        "Benefits \n" +
+        clearHtmlTags(response.data.benefits).split("at <a")[0];
+
+      return {
+        company: this.company,
+        name: jobName,
+        location: jobLocation,
+        description: jobDescription,
+        url: this.mainUrl + response.data.shortcode,
+      };
+    } catch (error) {
+      return {
+        company: "",
+        name: "",
+        location: "",
+        description: "",
+        url: "",
+      };
+    }
   }
 
   async scrapeAllJobOffers() {

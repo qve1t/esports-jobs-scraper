@@ -23,47 +23,70 @@ export class ThievesCompany implements CompanyScraper {
   async scrapeLinks() {
     this.linksToOffers = [];
 
-    const response = await axios.get(
-      "https://boards.greenhouse.io/embed/job_board?for=100thieves&b=https://100thieves.com/pages/careers"
-    );
+    try {
+      const response = await axios.get(
+        "https://boards.greenhouse.io/embed/job_board?for=100thieves&b=https://100thieves.com/pages/careers"
+      );
+      if (response.status === 200) {
+        const $ = cheerio.load(response.data);
 
-    const $ = cheerio.load(response.data);
+        $("a").each((index, elem) => {
+          $(elem).attr("href")?.includes("/www.100thieves.com/careers", 0) &&
+            this.linksToOffers.push(
+              $(elem).attr("href")?.split("jid=")[1] as string
+            );
+        });
 
-    $("a").each((index, elem) => {
-      $(elem).attr("href")?.includes("/www.100thieves.com/careers", 0) &&
-        this.linksToOffers.push(
-          $(elem).attr("href")?.split("jid=")[1] as string
-        );
-    });
-
-    this.linksToOffers = [...new Set(this.linksToOffers)];
+        this.linksToOffers = [...new Set(this.linksToOffers)];
+      }
+    } catch (error) {}
   }
 
   async scrapeJobOffer(url: string): Promise<JobOffer> {
-    const response = await axios.get(
-      `https://boards.greenhouse.io/embed/job_app?for=100thieves&token=${url}&b=https://100thieves.com/pages/careers`
-    );
+    try {
+      const response = await axios.get(
+        `https://boards.greenhouse.io/embed/job_app?for=100thieves&token=${url}&b=https://100thieves.com/pages/careers`
+      );
 
-    const $ = cheerio.load(response.data);
-    $("p").before("\n");
-    $("p").after("\n");
-    $("li").before(" - ");
+      if (response.status !== 200) {
+        return {
+          company: "",
+          name: "",
+          location: "",
+          description: "",
+          url: "",
+        };
+      }
 
-    const jobName = $("h1.app-title").first().text().trim();
-    const jobLocation = $("div.location").first().text().trim().split(",")[0];
+      const $ = cheerio.load(response.data);
+      $("p").before("\n");
+      $("p").after("\n");
+      $("li").before(" - ");
 
-    const jobDescription = $("div #content")
-      .text()
-      .trim()
-      .replace(/\n\n+/g, "\n\n");
+      const jobName = $("h1.app-title").first().text().trim();
+      const jobLocation = $("div.location").first().text().trim().split(",")[0];
 
-    return {
-      company: this.company,
-      name: jobName,
-      location: jobLocation,
-      description: jobDescription,
-      url: this.mainUrl + url,
-    };
+      const jobDescription = $("div #content")
+        .text()
+        .trim()
+        .replace(/\n\n+/g, "\n\n");
+
+      return {
+        company: this.company,
+        name: jobName,
+        location: jobLocation,
+        description: jobDescription,
+        url: this.mainUrl + url,
+      };
+    } catch (error) {
+      return {
+        company: "",
+        name: "",
+        location: "",
+        description: "",
+        url: "",
+      };
+    }
   }
 
   async scrapeAllJobOffers() {

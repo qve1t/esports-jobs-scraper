@@ -23,48 +23,72 @@ export class NIPCompany implements CompanyScraper {
   async scrapeLinks() {
     this.linksToOffers = [];
 
-    const response = await axios.get(this.mainUrl + "/careers");
+    try {
+      const response = await axios.get(this.mainUrl + "/careers");
 
-    const $ = cheerio.load(response.data);
+      if (response.status === 200) {
+        const $ = cheerio.load(response.data);
 
-    $("a").each((index, elem) => {
-      $(elem).attr("href")?.includes("/o/", 0) &&
-        this.linksToOffers.push($(elem).attr("href") as string);
-    });
+        $("a").each((index, elem) => {
+          $(elem).attr("href")?.includes("/o/", 0) &&
+            this.linksToOffers.push($(elem).attr("href") as string);
+        });
 
-    this.linksToOffers = [...new Set(this.linksToOffers)];
+        this.linksToOffers = [...new Set(this.linksToOffers)];
+      }
+    } catch (error) {}
   }
 
   async scrapeJobOffer(url: string): Promise<JobOffer> {
-    const response = await axios.get(this.mainUrl + url);
-    const locationResponse = await axios.get(this.mainUrl + "/careers");
+    try {
+      const response = await axios.get(this.mainUrl + url);
+      const locationResponse = await axios.get(this.mainUrl + "/careers");
 
-    const $ = cheerio.load(response.data);
-    const $location = cheerio.load(locationResponse.data);
+      if (response.status !== 200) {
+        return {
+          company: "",
+          name: "",
+          location: "",
+          description: "",
+          url: "",
+        };
+      }
 
-    $("li").before(" - ");
+      const $ = cheerio.load(response.data);
+      const $location = cheerio.load(locationResponse.data);
 
-    const jobName = $("h2.title").first().text().trim();
-    const jobLocation = $location(`div:contains('${jobName}') > ul > li`)
-      .text()
-      .trim()
-      .split(",")[0];
+      $("li").before(" - ");
 
-    $("h2").remove();
-    $(".apply").first().remove();
-    $("div.content").first().remove();
-    const jobDescription = $("div.content")
-      .text()
-      .trim()
-      .replace(/\n\n+/g, "\n\n");
+      const jobName = $("h2.title").first().text().trim();
+      const jobLocation = $location(`div:contains('${jobName}') > ul > li`)
+        .text()
+        .trim()
+        .split(",")[0];
 
-    return {
-      company: this.company,
-      name: jobName,
-      location: jobLocation,
-      description: jobDescription,
-      url: this.mainUrl + url,
-    };
+      $("h2").remove();
+      $(".apply").first().remove();
+      $("div.content").first().remove();
+      const jobDescription = $("div.content")
+        .text()
+        .trim()
+        .replace(/\n\n+/g, "\n\n");
+
+      return {
+        company: this.company,
+        name: jobName,
+        location: jobLocation,
+        description: jobDescription,
+        url: this.mainUrl + url,
+      };
+    } catch (error) {
+      return {
+        company: "",
+        name: "",
+        location: "",
+        description: "",
+        url: "",
+      };
+    }
   }
 
   async scrapeAllJobOffers() {
