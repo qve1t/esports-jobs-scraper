@@ -56,9 +56,15 @@ const RektGlobal = new RektGlobalCompany(scraper);
 const Guild = new GuildCompany(scraper);
 const OverActive = new OveractiveCompany(scraper);
 
-const cronJob = new CronJob("0 1,13 * * *", async () => {
-  await scraper.scrapeData();
-});
+const cronJob = new CronJob(
+  "0 1,13 * * *",
+  async () => {
+    await scraper.scrapeData();
+  },
+  null,
+  false,
+  "Europe/Warsaw"
+);
 
 cronJob.start();
 
