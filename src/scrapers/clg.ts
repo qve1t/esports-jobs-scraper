@@ -94,21 +94,25 @@ export class CLGCompany implements CompanyScraper {
   }
 
   async scrapeAllJobOffers() {
-    await this.scrapeLinks();
+    try {
+      await this.scrapeLinks();
 
-    await Promise.all(
-      this.linksToOffers.map(async (elem) => {
-        const offer = await this.scrapeJobOffer(elem);
-        JobOfferService.HandleFoundJobOffer(offer);
-      })
-    );
+      await Promise.all(
+        this.linksToOffers.map(async (elem) => {
+          const offer = await this.scrapeJobOffer(elem);
+          JobOfferService.HandleFoundJobOffer(offer);
+        })
+      );
 
-    await JobOfferService.DeleteOldOffers(
-      this.company,
-      this.mainUrl,
-      this.linksToOffers
-    );
+      await JobOfferService.DeleteOldOffers(
+        this.company,
+        this.mainUrl,
+        this.linksToOffers
+      );
 
-    this.scrapeInfo();
+      this.scrapeInfo();
+    } catch (error) {
+      console.log(`[server]: ${this.company} scrape ERROR.`);
+    }
   }
 }
