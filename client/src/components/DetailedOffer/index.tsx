@@ -50,12 +50,12 @@ const DetailedOffer = () => {
           <p className="font-bold">{data?.company}</p>
           <p className="font-bold">{data?.location}</p>
         </div>
-        <LinkButton url={data?.url || ""} text="See full offer" />
+        <LinkButton url={data?.url || ""} text="Full offer" />
       </div>
       <h1 className="text-5xl text-center my-8">{data?.name}</h1>
       <div className="whitespace-pre-wrap">{data?.description}</div>
       <div className="flex justify-start mt-8">
-        <LinkButton url={data?.url || ""} text="See full offer" />
+        <LinkButton url={data?.url || ""} text="Full offer" />
       </div>
     </>
   );
