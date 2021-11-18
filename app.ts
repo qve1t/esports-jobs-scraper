@@ -2,9 +2,11 @@ import "dotenv/config";
 import express from "express";
 import "reflect-metadata";
 import { CronJob } from "cron";
+import path from "path";
 
 import connectDB from "./src/db/typeorm";
 import JobOfferRouter from "./src/routes/JobOffer";
+import { ScrapersMenager } from "./src/services/ScrapersMenager.service";
 import { ThievesCompany } from "./src/scrapers/100thieves";
 import { C9Company } from "./src/scrapers/c9";
 import { CLGCompany } from "./src/scrapers/clg";
@@ -20,11 +22,10 @@ import { ImmortalsCompany } from "./src/scrapers/immortals";
 import { NIPCompany } from "./src/scrapers/nip";
 import { TLCompany } from "./src/scrapers/tl";
 import { VitalityCompany } from "./src/scrapers/vitality";
-import { ScrapersMenager } from "./src/services/ScrapersMenager.service";
-import path from "path";
 import { RektGlobalCompany } from "./src/scrapers/rektGlobal";
 import { GuildCompany } from "./src/scrapers/guild";
 import { OveractiveCompany } from "./src/scrapers/overactive";
+import { TSMCompany } from "./src/scrapers/tsm";
 
 connectDB();
 
@@ -55,6 +56,7 @@ const CLG = new CLGCompany(scraper);
 const RektGlobal = new RektGlobalCompany(scraper);
 const Guild = new GuildCompany(scraper);
 const OverActive = new OveractiveCompany(scraper);
+const TSM = new TSMCompany(scraper);
 
 const cronJob = new CronJob(
   "0 1,13 * * *",

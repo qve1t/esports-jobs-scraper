@@ -16,6 +16,7 @@ import Clg from "./clg.svg";
 import Rekt from "./rekt.svg";
 import Guild from "./guild.svg";
 import Overactive from "./overactive.svg";
+import Tsm from "./tsm.svg";
 
 interface LogoProps {
   name: string;
@@ -59,6 +60,8 @@ const getImage = (name: string) => {
       return Guild;
     case "OverActive Media":
       return Overactive;
+    case "TSM":
+      return Tsm;
   }
 };
 

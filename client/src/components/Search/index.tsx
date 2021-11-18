@@ -26,6 +26,7 @@ const ORGS = [
   { value: "OverActive Media", label: "OverActive Media" },
   { value: "ReKTGlobal", label: "ReKTGlobal" },
   { value: "Team Liquid", label: "Team Liquid" },
+  { value: "TSM", label: "TSM" },
   { value: "Vitality", label: "Vitality" },
 ];
 
