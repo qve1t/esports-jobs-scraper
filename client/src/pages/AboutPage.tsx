@@ -9,8 +9,8 @@ const AboutPage = () => {
   useGaTracker();
   return (
     <Layout>
-      <h1 className="text-5xl text-center my-8 text-pink-500">
-        Welcome to esports-Go
+      <h1 className="text-5xl text-center my-8 ">
+        Welcome to <span className="text-pink-500">esports-GO</span>
       </h1>
       <div className="whitespace-pre-wrap">
         This website was created to help you start your esports adventure. You
