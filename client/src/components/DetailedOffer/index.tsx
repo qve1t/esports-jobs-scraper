@@ -44,7 +44,7 @@ const DetailedOffer = () => {
   }
 
   return (
-    <>
+    <div className="dark:text-white">
       <div className="flex justify-between">
         <div>
           <p className="font-bold">{data?.company}</p>
@@ -57,7 +57,7 @@ const DetailedOffer = () => {
       <div className="flex justify-start mt-8">
         <LinkButton url={data?.url || ""} text="Full offer" />
       </div>
-    </>
+    </div>
   );
 };
 

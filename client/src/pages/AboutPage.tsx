@@ -9,8 +9,9 @@ const AboutPage = () => {
   useGaTracker();
   return (
     <Layout>
-      <h1 className="text-5xl text-center my-8 ">
-        Welcome to <span className="text-pink-500">esports-GO</span>
+      <h1 className="text-5xl text-center mb-8">
+        Welcome to{" "}
+        <span className="text-pink-500 dark:text-pink-600">esports-GO</span>
       </h1>
       <div className="whitespace-pre-wrap">
         This website was created to help you start your esports adventure. You
@@ -28,7 +29,10 @@ const AboutPage = () => {
         {`\n\n`}Offers from new companies will be successively adding. If you
         find any bugs, have ideas to improve page or you find a new job thanks
         to this page, feel free to{" "}
-        <a className="text-pink-500" href="mailto: contact@esports-go.net">
+        <a
+          className="text-pink-500 dark:text-pink-600"
+          href="mailto: contact@esports-go.net"
+        >
           contact me.
         </a>
       </div>
