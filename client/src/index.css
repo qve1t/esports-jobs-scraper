@@ -19,3 +19,7 @@
   height: auto;
   min-height: calc(100vh - theme("height.28"));
 }
+
+.dark body {
+  background-color: #111827;
+}

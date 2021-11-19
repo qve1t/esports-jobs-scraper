@@ -17,7 +17,7 @@ const CookiesBanner = () => {
 
   if (show === undefined) {
     return (
-      <div className="sticky bottom-0 z-10 w-screen min-h-28 px-5 py-7 mx-sc bg-gray-100 border-t-2 border-pink-400  shadow-md">
+      <div className="sticky bottom-0 z-10 w-screen min-h-28 px-5 py-7 mx-sc bg-gray-100 border-t-2 border-pink-400 shadow-md dark:bg-gray-800 dark:border-pink-600 dark:text-white">
         <div className="flex flex-row items-center max-w-screen-xl mx-4 xl:mx-auto">
           <p>
             <span className="font-bold">Notice.</span> esports-Go uses cookies
@@ -26,7 +26,7 @@ const CookiesBanner = () => {
             <a
               href="/privacy"
               target="_blank"
-              className="text-pink-400 underline"
+              className="text-pink-400 underline dark:text-pink-600"
             >
               our Privacy Policy
             </a>{" "}

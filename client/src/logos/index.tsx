@@ -66,7 +66,11 @@ const getImage = (name: string) => {
 };
 
 const OrgLogo = ({ name }: LogoProps) => {
-  return <img src={getImage(name)} alt={name} className="w-8 h-8" />;
+  return (
+    <div className="flex w-10 h-10 dark:bg-white rounded-full items-center justify-center">
+      <img src={getImage(name)} alt={name} className="w-8 h-8 " />
+    </div>
+  );
 };
 
 export default OrgLogo;

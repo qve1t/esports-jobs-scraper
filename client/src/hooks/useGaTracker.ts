@@ -17,7 +17,6 @@ const useGaTracker = () => {
   useEffect(() => {
     if (initialized) {
       ReactGA.send({ hitType: "pageview", page: window.location.pathname });
-      console.log();
     }
   }, [initialized]);
 };
