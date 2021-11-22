@@ -5,9 +5,9 @@ import { JobOffer } from "../interfaces/JobOffer.interface";
 import { ScraperMenagerInterface } from "../interfaces/ScraperMenager.interface";
 import { JobOfferService } from "../services/JobOffer.service";
 
-export class FnaticCompany implements CompanyScraper {
-  company = "Fnatic";
-  mainUrl = "https://fnatic.com";
+export class RiotCompany implements CompanyScraper {
+  company = "Riot";
+  mainUrl = "https://www.riotgames.com";
   linksToOffers: string[] = [];
 
   constructor(scraperMenager: ScraperMenagerInterface) {
@@ -24,13 +24,16 @@ export class FnaticCompany implements CompanyScraper {
     this.linksToOffers = [];
 
     try {
-      const response = await axios.get(this.mainUrl + "/careers");
+      const response = await axios.get(
+        this.mainUrl + "/en/work-with-us#craft=esports"
+      );
 
       if (response.status === 200) {
         const $ = cheerio.load(response.data);
 
         $("a").each((index, elem) => {
-          $(elem).attr("href")?.includes("/careers/", 0) &&
+          $(elem).attr("href")?.includes("/j/", 0) &&
+            $(elem).text().includes("Esports") &&
             this.linksToOffers.push($(elem).attr("href") as string);
         });
 
@@ -54,19 +57,20 @@ export class FnaticCompany implements CompanyScraper {
       }
 
       const $ = cheerio.load(response.data);
-      //remove images
-      $(".relative").remove();
+
       $("h2").before("\n");
       $("h2").after("\n");
       $("li").before(" - ");
       $("li").after("\n");
 
       const jobName = $("h1").first().text().trim();
-      const jobLocation = $("strong").first().text().trim();
+      const jobLocation = $(".page-header__subheading")
+        .first()
+        .text()
+        .split(",")[0]
+        .trim();
 
-      $("h1").remove();
-      $("p").first().remove();
-      const jobDescription = $('div[class*="prose"]')
+      const jobDescription = $(".job-description")
         .text()
         .trim()
         .replace(/\n\n+/g, "\n\n");
@@ -74,7 +78,7 @@ export class FnaticCompany implements CompanyScraper {
       return {
         company: this.company,
         name: jobName,
-        location: jobLocation,
+        location: jobLocation.includes("Singapore") ? "Singapore" : jobLocation,
         description: jobDescription,
         url: this.mainUrl + url,
       };

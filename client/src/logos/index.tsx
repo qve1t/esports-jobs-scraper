@@ -17,6 +17,8 @@ import Rekt from "./rekt.svg";
 import Guild from "./guild.svg";
 import Overactive from "./overactive.svg";
 import Tsm from "./tsm.svg";
+import Riot from "./riot.svg";
+import V1 from "./v1.svg";
 
 interface LogoProps {
   name: string;
@@ -62,13 +64,17 @@ const getImage = (name: string) => {
       return Overactive;
     case "TSM":
       return Tsm;
+    case "Riot":
+      return Riot;
+    case "Version1":
+      return V1;
   }
 };
 
 const OrgLogo = ({ name }: LogoProps) => {
   return (
-    <div className="flex w-10 h-10 dark:bg-white rounded-full items-center justify-center">
-      <img src={getImage(name)} alt={name} className="w-8 h-8 " />
+    <div className="flex w-12 h-12 dark:bg-white rounded-full items-center justify-center overflow-hidden">
+      <img src={getImage(name)} alt={name} className="w-10 h-10" />
     </div>
   );
 };
