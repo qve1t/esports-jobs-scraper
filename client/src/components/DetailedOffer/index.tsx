@@ -17,7 +17,8 @@ const DetailedOffer = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    document.title = data?.name || "esports-GO";
+    document.title =
+      data?.name || "esports-GO - Start your esport journey today";
   }, [data?.name]);
 
   useEffect(() => {

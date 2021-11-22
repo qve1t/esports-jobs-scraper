@@ -12,7 +12,7 @@ const Header = ({ children }: { children: string }) => {
 
 const CookiesPage = () => {
   useEffect(() => {
-    document.title = "esports-GO";
+    document.title = "esports-GO - Start your esport journey today";
   }, []);
 
   useGaTracker();
