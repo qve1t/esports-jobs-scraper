@@ -15,7 +15,9 @@ export const ORGS = [
   { value: "Ninjas in Pyjamas", label: "Ninjas in Pyjamas" },
   { value: "OverActive Media", label: "OverActive Media" },
   { value: "ReKTGlobal", label: "ReKTGlobal" },
+  { value: "Riot", label: "Riot Games" },
   { value: "Team Liquid", label: "Team Liquid" },
   { value: "TSM", label: "TSM" },
+  { value: "Version1", label: "Version1" },
   { value: "Vitality", label: "Vitality" },
 ];
