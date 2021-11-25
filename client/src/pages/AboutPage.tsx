@@ -4,7 +4,7 @@ import useGaTracker from "../hooks/useGaTracker";
 
 const AboutPage = () => {
   useEffect(() => {
-    document.title = "esports-GO - Start your esport journey today";
+    document.title = "esports-GO: Start your esport journey today";
   }, []);
   useGaTracker();
   return (

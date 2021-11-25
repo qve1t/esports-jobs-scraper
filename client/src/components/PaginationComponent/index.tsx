@@ -28,7 +28,7 @@ const PaginationComponent = ({
   const pagesNumber = Math.ceil(pageState.count / pageState.limit) - 1;
 
   return (
-    <div className="flex justify-between border-t-2 mt-4 pt-4 items-center dark:text-white dark:border-gray-900">
+    <div className="flex justify-between border-t-2 mt-4 pt-4 items-center  dark:text-gray-200 dark:border-gray-900">
       <p className="text-sm">{`Showing ${
         pageState.page * pageState.limit + 1
       } to ${

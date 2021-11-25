@@ -61,7 +61,6 @@ export class RiotCompany implements CompanyScraper {
       $("h2").before("\n");
       $("h2").after("\n");
       $("li").before(" - ");
-      $("li").after("\n");
 
       const jobName = $("h1").first().text().trim();
       const jobLocation = $(".page-header__subheading")
