@@ -64,7 +64,7 @@ const SearchComponent = ({ pageState, setPageState }: SearchListInputProps) => {
         ref={textRef}
         type="search"
         placeholder="Search..."
-        className="w-full sm:w-1/2 mb-4 px-4 py-2 rounded-full border-2 dark:bg-gray-900 dark:text-white border-pink-200 dark:border-pink-700 focus:border-pink-300 dark:focus:border-pink-600 outline-none transition-colors"
+        className="w-full sm:w-1/2 mb-4 px-4 py-2 rounded-full border-2 dark:bg-gray-900  dark:text-gray-200 border-pink-200 dark:border-pink-700 focus:border-pink-300 dark:focus:border-pink-600 outline-none transition-colors"
         onBlur={(event) => setText(event.target.value)}
         onKeyPress={(event) => setTextOnEnter(event)}
       />

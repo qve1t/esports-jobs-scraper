@@ -4,6 +4,7 @@ import { getOfferDetails } from "../../api/offers";
 import { JobOffer } from "../../interfaces/JobOffer.interface";
 import { PageLoadingStateInterface } from "../../interfaces/pageState.interface";
 import { LinkButton } from "../Buttons";
+import CompanyLink from "../CompanyLink";
 import ErrorComponent from "../ErrorComponent";
 import LoadingComponent from "../LoadingComponent";
 
@@ -18,7 +19,7 @@ const DetailedOffer = () => {
 
   useEffect(() => {
     document.title =
-      data?.name || "esports-GO - Start your esport journey today";
+      data?.name || "esports-GO: Start your esport journey today";
   }, [data?.name]);
 
   useEffect(() => {
@@ -45,11 +46,15 @@ const DetailedOffer = () => {
   }
 
   return (
-    <div className="dark:text-white">
+    <div className=" dark:text-opacity-80">
       <div className="flex justify-between">
         <div>
-          <p className="font-bold">{data?.company}</p>
-          <p className="font-bold">{data?.location}</p>
+          <p>
+            Organization: <CompanyLink company={data?.company || ""} />
+          </p>
+          <p>
+            Location:<span className="font-bold"> {data?.location}</span>
+          </p>
         </div>
         <LinkButton url={data?.url || ""} text="Full offer" />
       </div>

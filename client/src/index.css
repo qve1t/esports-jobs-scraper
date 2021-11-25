@@ -18,6 +18,7 @@
 .main-area {
   height: auto;
   min-height: calc(100vh - theme("height.28"));
+  color: #37474f;
 }
 
 .dark body {
