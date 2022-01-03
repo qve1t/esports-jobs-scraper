@@ -46,6 +46,8 @@ const getLink = (org: string) => {
       return "https://www.riotgames.com/";
     case "Version1":
       return "https://version1.gg/";
+    case "Astralis":
+      return "https://www.astralis.gg/";
   }
 };
 

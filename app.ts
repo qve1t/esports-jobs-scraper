@@ -27,6 +27,7 @@ import { GuildCompany } from "./src/scrapers/guild";
 import { OveractiveCompany } from "./src/scrapers/overactive";
 import { RiotCompany } from "./src/scrapers/Riot";
 import { VersionCompany } from "./src/scrapers/versionone";
+import { AstralisCompany } from "./src/scrapers/astralis";
 // import { TSMCompany } from "./src/scrapers/tsm";
 
 connectDB();
@@ -60,6 +61,7 @@ const Guild = new GuildCompany(scraper);
 const OverActive = new OveractiveCompany(scraper);
 const Riot = new RiotCompany(scraper);
 const Version1 = new VersionCompany(scraper);
+const Astralis = new AstralisCompany(scraper);
 // const TSM = new TSMCompany(scraper); TSM have to be scraped manually
 
 const cronJob = new CronJob("0 1,13 * * *", async () => {

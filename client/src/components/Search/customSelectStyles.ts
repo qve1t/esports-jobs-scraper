@@ -54,6 +54,10 @@ export const customStylesDark = {
     ...styles,
     color: "white",
   }),
+  singleValue: (styles: any) => ({
+    ...styles,
+    color: "white",
+  }),
   placeholder: (styles: any) => ({
     ...styles,
     color: "#9ca3af",

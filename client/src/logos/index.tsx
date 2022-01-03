@@ -19,6 +19,7 @@ import Overactive from "./overactive.svg";
 import Tsm from "./tsm.svg";
 import Riot from "./riot.svg";
 import V1 from "./v1.svg";
+import Astralis from "./astralis.svg";
 
 interface LogoProps {
   name: string;
@@ -68,6 +69,8 @@ const getImage = (name: string) => {
       return Riot;
     case "Version1":
       return V1;
+    case "Astralis":
+      return Astralis;
   }
 };
 
