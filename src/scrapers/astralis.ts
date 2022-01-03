@@ -34,7 +34,7 @@ export class AstralisCompany implements CompanyScraper {
             this.linksToOffers.push($(elem).attr("href") as string);
         });
 
-        console.log(this.linksToOffers);
+        this.linksToOffers = [...new Set(this.linksToOffers)];
       }
     } catch (error) {}
   }
