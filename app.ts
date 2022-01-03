@@ -27,6 +27,7 @@ import { GuildCompany } from "./src/scrapers/guild";
 import { OveractiveCompany } from "./src/scrapers/overactive";
 import { RiotCompany } from "./src/scrapers/Riot";
 import { VersionCompany } from "./src/scrapers/versionone";
+import { AstralisCompany } from "./src/scrapers/astralis";
 // import { TSMCompany } from "./src/scrapers/tsm";
 
 connectDB();
@@ -40,26 +41,27 @@ app.use(express.static(path.join(__dirname, "./client/build")));
 
 const scraper = new ScrapersMenager();
 
-const G2 = new G2Company(scraper);
-const Fnatic = new FnaticCompany(scraper);
-const Excel = new ExcelCompany(scraper);
-const Vitality = new VitalityCompany(scraper);
-const C9 = new C9Company(scraper);
-const TL = new TLCompany(scraper);
-const Thieves = new ThievesCompany(scraper);
-const EG = new EGCompany(scraper);
-const Dignitas = new DignitasCompany(scraper);
-const Immortals = new ImmortalsCompany(scraper);
-const Complexity = new ComplexityCompany(scraper);
-const GG = new GoldenGuardiansCompany(scraper);
-const Heroic = new HeroicCompany(scraper);
-const NIP = new NIPCompany(scraper);
-const CLG = new CLGCompany(scraper);
-const RektGlobal = new RektGlobalCompany(scraper);
-const Guild = new GuildCompany(scraper);
-const OverActive = new OveractiveCompany(scraper);
-const Riot = new RiotCompany(scraper);
-const Version1 = new VersionCompany(scraper);
+// const G2 = new G2Company(scraper);
+// const Fnatic = new FnaticCompany(scraper);
+// const Excel = new ExcelCompany(scraper);
+// const Vitality = new VitalityCompany(scraper);
+// const C9 = new C9Company(scraper);
+// const TL = new TLCompany(scraper);
+// const Thieves = new ThievesCompany(scraper);
+// const EG = new EGCompany(scraper);
+// const Dignitas = new DignitasCompany(scraper);
+// const Immortals = new ImmortalsCompany(scraper);
+// const Complexity = new ComplexityCompany(scraper);
+// const GG = new GoldenGuardiansCompany(scraper);
+// const Heroic = new HeroicCompany(scraper);
+// const NIP = new NIPCompany(scraper);
+// const CLG = new CLGCompany(scraper);
+// const RektGlobal = new RektGlobalCompany(scraper);
+// const Guild = new GuildCompany(scraper);
+// const OverActive = new OveractiveCompany(scraper);
+// const Riot = new RiotCompany(scraper);
+// const Version1 = new VersionCompany(scraper);
+const Astralis = new AstralisCompany(scraper);
 // const TSM = new TSMCompany(scraper); TSM have to be scraped manually
 
 const cronJob = new CronJob("0 1,13 * * *", async () => {
