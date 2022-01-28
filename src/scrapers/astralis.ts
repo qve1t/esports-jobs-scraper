@@ -3,6 +3,7 @@ import * as cheerio from "cheerio";
 import { CompanyScraper } from "../interfaces/companyScraper.interface";
 import { JobOffer } from "../interfaces/JobOffer.interface";
 import { ScraperMenagerInterface } from "../interfaces/ScraperMenager.interface";
+import { errorLogger } from "../logger/logger";
 import { JobOfferService } from "../services/JobOffer.service";
 
 export class AstralisCompany implements CompanyScraper {
@@ -106,7 +107,7 @@ export class AstralisCompany implements CompanyScraper {
 
       this.scrapeInfo();
     } catch (error) {
-      console.log(`[server]: ${this.company} scrape ERROR.`);
+      errorLogger.error(`[server]: ${this.company} scrape ERROR.`);
     }
   }
 }

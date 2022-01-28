@@ -4,6 +4,8 @@ import "reflect-metadata";
 import { CronJob } from "cron";
 import path from "path";
 
+import { infoLogger } from "./src/logger/logger";
+
 import connectDB from "./src/db/typeorm";
 import JobOfferRouter from "./src/routes/JobOffer";
 import { ScrapersMenager } from "./src/services/ScrapersMenager.service";
@@ -41,27 +43,27 @@ app.use(express.static(path.join(__dirname, "./client/build")));
 
 const scraper = new ScrapersMenager();
 
-const G2 = new G2Company(scraper);
-const Fnatic = new FnaticCompany(scraper);
-const Excel = new ExcelCompany(scraper);
-const Vitality = new VitalityCompany(scraper);
-const C9 = new C9Company(scraper);
-const TL = new TLCompany(scraper);
-const Thieves = new ThievesCompany(scraper);
-const EG = new EGCompany(scraper);
-const Dignitas = new DignitasCompany(scraper);
-const Immortals = new ImmortalsCompany(scraper);
-const Complexity = new ComplexityCompany(scraper);
-const GG = new GoldenGuardiansCompany(scraper);
-const Heroic = new HeroicCompany(scraper);
-const NIP = new NIPCompany(scraper);
-const CLG = new CLGCompany(scraper);
-const RektGlobal = new RektGlobalCompany(scraper);
-const Guild = new GuildCompany(scraper);
-const OverActive = new OveractiveCompany(scraper);
-const Riot = new RiotCompany(scraper);
-const Version1 = new VersionCompany(scraper);
-const Astralis = new AstralisCompany(scraper);
+new G2Company(scraper);
+new FnaticCompany(scraper);
+new ExcelCompany(scraper);
+new VitalityCompany(scraper);
+new C9Company(scraper);
+new TLCompany(scraper);
+new ThievesCompany(scraper);
+new EGCompany(scraper);
+new DignitasCompany(scraper);
+new ImmortalsCompany(scraper);
+new ComplexityCompany(scraper);
+new GoldenGuardiansCompany(scraper);
+new HeroicCompany(scraper);
+new NIPCompany(scraper);
+new CLGCompany(scraper);
+new RektGlobalCompany(scraper);
+new GuildCompany(scraper);
+new OveractiveCompany(scraper);
+new RiotCompany(scraper);
+new VersionCompany(scraper);
+new AstralisCompany(scraper);
 // const TSM = new TSMCompany(scraper); TSM have to be scraped manually
 
 const cronJob = new CronJob("0 1,13 * * *", async () => {
@@ -75,6 +77,6 @@ app.get("/*", (req, res) => {
 });
 
 app.listen(PORT, async () => {
-  console.log(`[server]: Server is running at port ${PORT}`);
+  infoLogger.info(`[server]: Server is running at port ${PORT}`);
   process.env.ENV !== "production" && (await scraper.scrapeData());
 });

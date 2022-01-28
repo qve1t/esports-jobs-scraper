@@ -1,9 +1,9 @@
 import axios from "axios";
-import * as cheerio from "cheerio";
 import { CompanyScraper } from "../interfaces/companyScraper.interface";
 import { JobOffer } from "../interfaces/JobOffer.interface";
 import { ScraperMenagerInterface } from "../interfaces/ScraperMenager.interface";
 import { JobOfferService } from "../services/JobOffer.service";
+import { errorLogger } from "../logger/logger";
 import { clearHtmlTags } from "../utils/clearHtmlTags";
 
 export class ImmortalsCompany implements CompanyScraper {
@@ -111,7 +111,7 @@ export class ImmortalsCompany implements CompanyScraper {
 
       this.scrapeInfo();
     } catch (error) {
-      console.log(`[server]: ${this.company} scrape ERROR.`);
+      errorLogger.error(`[server]: ${this.company} scrape ERROR.`);
     }
   }
 }
