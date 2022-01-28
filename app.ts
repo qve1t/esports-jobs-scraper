@@ -64,6 +64,7 @@ new OveractiveCompany(scraper);
 new RiotCompany(scraper);
 new VersionCompany(scraper);
 new AstralisCompany(scraper);
+
 // const TSM = new TSMCompany(scraper); TSM have to be scraped manually
 
 const cronJob = new CronJob("0 1,13 * * *", async () => {
@@ -78,5 +79,6 @@ app.get("/*", (req, res) => {
 
 app.listen(PORT, async () => {
   infoLogger.info(`[server]: Server is running at port ${PORT}`);
+
   process.env.ENV !== "production" && (await scraper.scrapeData());
 });
