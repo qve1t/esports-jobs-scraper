@@ -1,9 +1,8 @@
-import axios from "axios";
-import * as cheerio from "cheerio";
 import puppeteer from "puppeteer";
 import { CompanyScraper } from "../interfaces/companyScraper.interface";
 import { JobOffer } from "../interfaces/JobOffer.interface";
 import { ScraperMenagerInterface } from "../interfaces/ScraperMenager.interface";
+import { errorLogger } from "../logger/logger";
 import { JobOfferService } from "../services/JobOffer.service";
 
 export class TSMCompany implements CompanyScraper {
@@ -109,7 +108,7 @@ export class TSMCompany implements CompanyScraper {
 
       this.scrapeInfo();
     } catch (error) {
-      console.log(`[server]: ${this.company} scrape ERROR.`);
+      errorLogger.error(`[server]: ${this.company} scrape ERROR.`);
     }
   }
 }

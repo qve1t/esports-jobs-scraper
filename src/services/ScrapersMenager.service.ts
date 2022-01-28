@@ -1,5 +1,6 @@
 import { CompanyScraper } from "../interfaces/CompanyScraper.interface";
 import { ScraperMenagerInterface } from "../interfaces/ScraperMenager.interface";
+import { infoLogger } from "../logger/logger";
 
 export class ScrapersMenager implements ScraperMenagerInterface {
   scrapers: CompanyScraper[] = [];
@@ -14,7 +15,7 @@ export class ScrapersMenager implements ScraperMenagerInterface {
         await elem.scrapeAllJobOffers();
       })
     );
-    console.log(
+    infoLogger.info(
       `[server]: All data scraped at: ${
         new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString()
       }`
