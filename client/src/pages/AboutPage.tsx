@@ -1,14 +1,14 @@
-import { useEffect } from "react";
-import Layout from "../components/Layout";
+import { Helmet } from "react-helmet";
 import useGaTracker from "../hooks/useGaTracker";
 
 const AboutPage = () => {
-  useEffect(() => {
-    document.title = "esports-GO: Start your esport journey today";
-  }, []);
   useGaTracker();
+
   return (
-    <Layout>
+    <>
+      <Helmet>
+        <title>{"esports-GO: Start your esport journey today"}</title>
+      </Helmet>
       <h1 className="text-5xl text-center mb-8">
         Welcome to{" "}
         <span className="text-pink-500 dark:text-pink-600">esports-GO</span>
@@ -36,7 +36,7 @@ const AboutPage = () => {
           contact me.
         </a>
       </div>
-    </Layout>
+    </>
   );
 };
 

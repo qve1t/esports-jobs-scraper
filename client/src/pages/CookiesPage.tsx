@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import Layout from "../components/Layout";
+import { Helmet } from "react-helmet";
 import useGaTracker from "../hooks/useGaTracker";
 
 const Paragraph = ({ children }: { children: string }) => {
@@ -11,19 +10,18 @@ const Header = ({ children }: { children: string }) => {
 };
 
 const CookiesPage = () => {
-  useEffect(() => {
-    document.title = "esports-GO: Start your esport journey today";
-  }, []);
-
   useGaTracker();
 
   return (
-    <Layout>
+    <>
+      <Helmet>
+        <title>{"esports-GO: Start your esport journey today"}</title>
+      </Helmet>
       <h1 className="text-5xl">Cookie Policy for esports-GO</h1>
 
       <Paragraph>
         This is the Cookie Policy for esports-GO, accessible from
-        http://esports-go.net
+        https://esports-go.net
       </Paragraph>
 
       <Header>What Are Cookies</Header>
@@ -119,7 +117,7 @@ const CookiesPage = () => {
       <ul className="list-disc list-outside ml-4">
         <li>Email: contact@esports-go.net</li>
       </ul>
-    </Layout>
+    </>
   );
 };
 

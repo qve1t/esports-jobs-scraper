@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { StandardButton } from "../Buttons";
 
 const setCookie = () => {
@@ -23,13 +24,12 @@ const CookiesBanner = () => {
             <span className="font-bold">Notice.</span> esports-GO uses cookies
             to provide necessary website functionality, improve your experience
             and analyze traffic. By using our website, you agree to{" "}
-            <a
-              href="/privacy"
-              target="_blank"
+            <Link
+              to="/privacy"
               className="text-pink-400 underline dark:text-pink-600"
             >
               our Privacy Policy
-            </a>{" "}
+            </Link>{" "}
             and our cookies usage.
           </p>
           <StandardButton
