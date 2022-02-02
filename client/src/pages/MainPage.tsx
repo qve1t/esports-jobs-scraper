@@ -1,17 +1,16 @@
-import { useEffect } from "react";
+import { Helmet } from "react-helmet";
 import { OffersList, OffersWrapper } from "../components/Offers";
 import SearchComponent from "../components/Search";
 import useGaTracker from "../hooks/useGaTracker";
 
 const MainPage = () => {
-  useEffect(() => {
-    document.title = "esports-GO: Start your esport journey today";
-  }, []);
-
   useGaTracker();
 
   return (
     <OffersWrapper>
+      <Helmet>
+        <title>{"esports-GO: Start your esport journey today"}</title>
+      </Helmet>
       <SearchComponent />
       <OffersList />
     </OffersWrapper>

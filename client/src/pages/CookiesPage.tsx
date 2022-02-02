@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { Helmet } from "react-helmet";
 import useGaTracker from "../hooks/useGaTracker";
 
 const Paragraph = ({ children }: { children: string }) => {
@@ -10,14 +10,13 @@ const Header = ({ children }: { children: string }) => {
 };
 
 const CookiesPage = () => {
-  useEffect(() => {
-    document.title = "esports-GO: Start your esport journey today";
-  }, []);
-
   useGaTracker();
 
   return (
     <>
+      <Helmet>
+        <title>{"esports-GO: Start your esport journey today"}</title>
+      </Helmet>
       <h1 className="text-5xl">Cookie Policy for esports-GO</h1>
 
       <Paragraph>

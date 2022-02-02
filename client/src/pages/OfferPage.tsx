@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import { Helmet } from "react-helmet";
 import { getOfferDetails } from "../api/offers";
 import { JobOffer } from "../interfaces/JobOffer.interface";
 import { PageLoadingStateInterface } from "../interfaces/pageState.interface";
@@ -19,11 +20,6 @@ const OfferPage = () => {
       loading: true,
     });
   const { id } = useParams();
-
-  useEffect(() => {
-    document.title =
-      data?.name || "esports-GO: Start your esport journey today";
-  }, [data?.name]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,24 +45,31 @@ const OfferPage = () => {
   }
 
   return (
-    <div className=" dark:text-opacity-80">
-      <div className="flex justify-between">
-        <div>
-          <p>
-            Organization: <CompanyLink company={data?.company || ""} />
-          </p>
-          <p>
-            Location:<span className="font-bold"> {data?.location}</span>
-          </p>
+    <>
+      <Helmet>
+        <title>
+          {data?.name || "esports-GO: Start your esport journey today"}
+        </title>
+      </Helmet>
+      <div className=" dark:text-opacity-80">
+        <div className="flex justify-between">
+          <div>
+            <p>
+              Organization: <CompanyLink company={data?.company || ""} />
+            </p>
+            <p>
+              Location:<span className="font-bold"> {data?.location}</span>
+            </p>
+          </div>
+          <LinkButton url={data?.url || ""} text="Full offer" />
         </div>
-        <LinkButton url={data?.url || ""} text="Full offer" />
+        <h1 className="text-5xl text-center my-8">{data?.name}</h1>
+        <div className="whitespace-pre-wrap">{data?.description}</div>
+        <div className="flex justify-start mt-8">
+          <LinkButton url={data?.url || ""} text="Full offer" />
+        </div>
       </div>
-      <h1 className="text-5xl text-center my-8">{data?.name}</h1>
-      <div className="whitespace-pre-wrap">{data?.description}</div>
-      <div className="flex justify-start mt-8">
-        <LinkButton url={data?.url || ""} text="Full offer" />
-      </div>
-    </div>
+    </>
   );
 };
 
