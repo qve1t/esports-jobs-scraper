@@ -1,29 +1,57 @@
-import { LoadingStateInterface } from "../../interfaces/fetch.interface";
+import { useEffect, useState } from "react";
+import { getOffersList } from "../../api/offers";
 import { SimpleJobOffer } from "../../interfaces/JobOffer.interface";
-import { PageStateInterface } from "../../interfaces/pageState.interface";
+import { PageLoadingStateInterface } from "../../interfaces/pageState.interface";
+import { useSearchState, useSetSearchState } from "../../modules/SearchModule";
 import EmptyDataComponent from "../EmptyDataComponent";
 import ErrorComponent from "../ErrorComponent";
 import LoadingComponent from "../LoadingComponent";
 import PaginationComponent from "../PaginationComponent";
 import SingleOffer from "./SingleOffer";
 
-interface OffersListComponentInterface {
-  pageLoadingState: LoadingStateInterface;
-  setPageLoadingState: React.Dispatch<
-    React.SetStateAction<LoadingStateInterface>
-  >;
-  offersList: SimpleJobOffer[];
-  pageState: PageStateInterface;
-  setPageState: React.Dispatch<React.SetStateAction<PageStateInterface>>;
-}
+const OffersListComponent = () => {
+  const [offersList, setOffersList] = useState<SimpleJobOffer[]>([]);
+  const searchState = useSearchState();
+  const setSearchState = useSetSearchState();
 
-const OffersListComponent = ({
-  pageLoadingState,
-  setPageLoadingState,
-  offersList,
-  pageState,
-  setPageState,
-}: OffersListComponentInterface) => {
+  const [pageLoadingState, setPageLoadingState] =
+    useState<PageLoadingStateInterface>({
+      error: null,
+      loading: true,
+    });
+
+  useEffect(() => {
+    const getOffers = async () => {
+      const fetchedData = await getOffersList({
+        search: searchState.search,
+        org: searchState.org,
+        limit: searchState.limit,
+        page: searchState.page,
+      });
+      if (fetchedData.response) {
+        setPageLoadingState({ loading: false, error: null });
+        setSearchState({
+          page: searchState.page,
+          search: searchState.search,
+          org: searchState.org,
+          count: fetchedData.response.count,
+          limit: 15,
+        });
+        setOffersList(fetchedData.response.data);
+      } else {
+        setPageLoadingState({ loading: false, error: fetchedData.error });
+      }
+    };
+
+    getOffers();
+  }, [
+    searchState.page,
+    searchState.limit,
+    searchState.search,
+    searchState.org,
+    setSearchState,
+  ]);
+
   if (pageLoadingState.loading) {
     return <LoadingComponent />;
   }
@@ -48,8 +76,8 @@ const OffersListComponent = ({
       ))}
       <PaginationComponent
         resultsLength={offersList.length}
-        pageState={pageState}
-        setPageState={setPageState}
+        searchState={searchState}
+        setSearchState={setSearchState}
         setPageLoadingState={setPageLoadingState}
       />
     </>

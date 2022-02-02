@@ -1,4 +1,4 @@
-export interface PageStateInterface {
+export interface SearchStateInterface {
   page: number;
   limit: number;
   count: number;

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import Offers from "../components/Offers";
+import { OffersList, OffersWrapper } from "../components/Offers";
+import SearchComponent from "../components/Search";
 import useGaTracker from "../hooks/useGaTracker";
 
 const MainPage = () => {
@@ -10,9 +11,10 @@ const MainPage = () => {
   useGaTracker();
 
   return (
-    <>
-      <Offers />
-    </>
+    <OffersWrapper>
+      <SearchComponent />
+      <OffersList />
+    </OffersWrapper>
   );
 };
 

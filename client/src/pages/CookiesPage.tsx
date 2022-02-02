@@ -22,7 +22,7 @@ const CookiesPage = () => {
 
       <Paragraph>
         This is the Cookie Policy for esports-GO, accessible from
-        http://esports-go.net
+        https://esports-go.net
       </Paragraph>
 
       <Header>What Are Cookies</Header>

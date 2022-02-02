@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import CookiesBanner from "./components/CookiesBanner";
 
 const Layout = lazy(() => import("./components/Layout"));
 const LoadingComponent = lazy(() => import("./components/LoadingComponent"));
@@ -57,6 +58,7 @@ const App = () => {
             />
           </Routes>
         </Layout>
+        <CookiesBanner />
       </Router>
     </div>
   );
