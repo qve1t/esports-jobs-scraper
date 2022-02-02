@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import Layout from "../components/Layout";
 import useGaTracker from "../hooks/useGaTracker";
 
 const Paragraph = ({ children }: { children: string }) => {
@@ -18,7 +17,7 @@ const CookiesPage = () => {
   useGaTracker();
 
   return (
-    <Layout>
+    <>
       <h1 className="text-5xl">Cookie Policy for esports-GO</h1>
 
       <Paragraph>
@@ -119,7 +118,7 @@ const CookiesPage = () => {
       <ul className="list-disc list-outside ml-4">
         <li>Email: contact@esports-go.net</li>
       </ul>
-    </Layout>
+    </>
   );
 };
 

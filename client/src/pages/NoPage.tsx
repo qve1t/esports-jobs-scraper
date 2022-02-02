@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import NotFound from "../components/404";
-import Layout from "../components/Layout";
 import useGaTracker from "../hooks/useGaTracker";
 
 const NoPage = () => {
@@ -11,9 +10,9 @@ const NoPage = () => {
   useGaTracker();
 
   return (
-    <Layout>
+    <>
       <NotFound />
-    </Layout>
+    </>
   );
 };
 
