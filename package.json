@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon --ignore client/ app.ts",
     "build": "tsc --project ./",
-    "scrape": "nodemon manualScrape.ts"
+    "scrape": "ts-node manualScrape.ts"
   },
   "repository": {
     "type": "git",
