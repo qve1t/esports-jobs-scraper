@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon --ignore client/ app.ts",
     "build": "tsc --project ./",
-    "scrape": "ts-node manualScrape.ts"
+    "scrape": "nodemon manualScrape.ts"
   },
   "repository": {
     "type": "git",
@@ -19,7 +19,6 @@
   },
   "homepage": "https://github.com/qve1t/esports-jobs-scraper#readme",
   "dependencies": {
-    "@prisma/client": "^3.10.0",
     "axios": "^0.24.0",
     "cheerio": "^1.0.0-rc.10",
     "cron": "^1.8.2",
@@ -38,9 +37,7 @@
     "@types/node": "^16.11.6",
     "@types/puppeteer": "^5.4.4",
     "@types/winston": "^2.4.4",
-    "esbuild-register": "^3.3.2",
     "nodemon": "^2.0.14",
-    "prisma": "^3.10.0",
     "puppeteer": "^11.0.0",
     "ts-node": "^10.4.0",
     "typescript": "^4.4.4"

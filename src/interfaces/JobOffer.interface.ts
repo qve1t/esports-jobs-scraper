@@ -1,16 +1,16 @@
 export interface JobOffer {
   company: string;
   name: string;
-  location: string | null;
+  location: string;
   description: string;
   url: string;
 }
 
 export interface SimpleJobOffer {
-  id: string;
+  _id: string;
   company: string;
   name: string;
-  location: string | null;
+  location: string;
 }
 
 export interface SimpleJobOfferList {
