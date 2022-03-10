@@ -1,0 +1,18 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model JobOffer {
+  id          String   @id @default(uuid())
+  name        String
+  company     String
+  description String   @db.LongText
+  location    String?
+  url         String   @unique
+  updated     DateTime @default(now()) @updatedAt
+}

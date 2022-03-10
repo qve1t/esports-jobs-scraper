@@ -1,6 +1,5 @@
 build
 
-manualScrape.ts
 # Logs
 logs
 *.log
