@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { SimpleJobOffer } from "../../interfaces/JobOffer.interface";
-import OrgLogo from "../../logos";
+import OrgLogo from "../Logos";
 
 const SingleOffer = ({ _id, company, location, name }: SimpleJobOffer) => {
   return (

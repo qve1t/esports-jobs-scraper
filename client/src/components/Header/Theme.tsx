@@ -1,5 +1,3 @@
-import Dark from "../../icons/dark.svg";
-import Light from "../../icons/light.svg";
 import { useIsDark, useSetDark } from "../../modules/ThemeModule";
 
 const Theme = () => {
@@ -9,7 +7,11 @@ const Theme = () => {
     <div className="flex w-8 h-8 bg-gray-800 dark:bg-white rounded-full items-center justify-center cursor-pointer">
       <img
         className="w-6 h-6 "
-        src={isDark ? Light : Dark}
+        src={
+          isDark
+            ? process.env.PUBLIC_URL + "/icons/light.svg"
+            : process.env.PUBLIC_URL + "/icons/dark.svg"
+        }
         alt="Theme"
         onClick={() => setDark(!isDark)}
       />
