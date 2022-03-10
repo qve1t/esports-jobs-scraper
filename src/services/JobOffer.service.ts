@@ -1,44 +1,49 @@
-import { Like } from "typeorm";
-import { JobOfferEntity } from "../entity/JobOffer.entity";
-import { JobOffer, SimpleJobOfferList } from "../interfaces/JobOffer.interface";
+import {
+  JobOffer as JobOfferNoId,
+  SimpleJobOfferList,
+} from "../interfaces/JobOffer.interface";
+import { JobOffer } from "@prisma/client";
+import { db } from "../db/db.server";
 
 export class JobOfferService {
   static async CreateJobOffer(data: JobOffer): Promise<void> {
-    const model = new JobOfferEntity();
-
     if (!data.name || !data.description) {
       return;
     }
 
-    model.name = data.name;
-    model.company = data.company;
-    model.description = data.description;
-    model.location = data.location;
-    model.url = data.url;
-
-    await model.save();
+    await db.jobOffer.create({
+      data: {
+        name: data.name,
+        company: data.company,
+        description: data.description,
+        location: data.location,
+        url: data.url,
+      },
+    });
   }
 
-  static async UpdateJobOffer(
-    model: JobOfferEntity,
-    data: JobOffer
-  ): Promise<void> {
-    model.name = data.name;
-    model.location = data.location;
-    model.description = data.description;
-    model.url = data.url;
-
-    await model.save();
-  }
-
-  static async HandleFoundJobOffer(data: JobOffer): Promise<void> {
-    const model = await JobOfferEntity.findOne({ url: data.url });
-
-    if (!model) {
-      this.CreateJobOffer(data);
-    } else {
-      this.UpdateJobOffer(model, data);
+  static async HandleFoundJobOffer(data: JobOfferNoId): Promise<void> {
+    if (!data.name || !data.description) {
+      return;
     }
+
+    await db.jobOffer.upsert({
+      where: { url: data.url },
+      update: {
+        name: data.name,
+        company: data.company,
+        description: data.description,
+        location: data.location,
+        url: data.url,
+      },
+      create: {
+        name: data.name,
+        company: data.company,
+        description: data.description,
+        location: data.location,
+        url: data.url,
+      },
+    });
   }
 
   static async GetJobOffersList(
@@ -47,15 +52,26 @@ export class JobOfferService {
     page: number,
     limit: number
   ): Promise<SimpleJobOfferList> {
-    const [offersList, count] = await JobOfferEntity.findAndCount({
-      where: [
-        { name: Like(`%${search}%`), company: Like(`%${org}%`) },
-        { location: Like(`%${search}%`), company: Like(`%${org}%`) },
-      ],
-      order: { company: "ASC" },
+    const offersList = await db.jobOffer.findMany({
+      where: {
+        OR: [
+          { name: { contains: search }, company: { contains: org } },
+          { location: { contains: search }, company: { contains: org } },
+        ],
+      },
       skip: page * limit,
       take: limit,
-      select: ["_id", "company", "name", "location"],
+      orderBy: { company: "asc" },
+      select: { id: true, company: true, name: true, location: true },
+    });
+
+    const count = await db.jobOffer.count({
+      where: {
+        OR: [
+          { name: { contains: search }, company: { contains: org } },
+          { location: { contains: search }, company: { contains: org } },
+        ],
+      },
     });
 
     return {
@@ -64,10 +80,8 @@ export class JobOfferService {
     };
   }
 
-  static async GetJobOfferDetails(id: string): Promise<JobOffer | undefined> {
-    const offersList = await JobOfferEntity.findOne({ _id: id });
-
-    return offersList;
+  static async GetJobOfferDetails(id: string): Promise<JobOffer | null> {
+    return await db.jobOffer.findUnique({ where: { id: id } });
   }
 
   static async DeleteOldOffers(
@@ -75,9 +89,9 @@ export class JobOfferService {
     mainUrl: string,
     newOffersList: string[]
   ) {
-    const currentOffers = await JobOfferEntity.find({
+    const currentOffers = await db.jobOffer.findMany({
       where: { company: company },
-      select: ["_id", "url"],
+      select: { id: true, url: true },
     });
 
     const filteredOffers = currentOffers.filter(
@@ -86,7 +100,7 @@ export class JobOfferService {
 
     await Promise.all(
       filteredOffers.map(async (elem) => {
-        await JobOfferEntity.delete(elem._id);
+        await db.jobOffer.delete({ where: { id: elem.id } });
       })
     );
 
